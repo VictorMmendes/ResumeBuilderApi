@@ -14,13 +14,24 @@ class ResumesController < ApplicationController
 
   # GET /resumes/1
   def show
-    render json: @resume, include: [
-      :experiences,
-      :educations,
-      :skills,
-      :languages,
-      :softwares
-    ]
+    pdf = PdfGeneratorService.new("resumes/show", {
+      resume: @resume, include: [
+        :experiences,
+        :educations,
+        :skills,
+        :languages,
+        :softwares
+      ]
+    }).call
+    send_data pdf, type: "application/pdf", disposition: "inline"
+
+    # render json: @resume, include: [
+    #   :experiences,
+    #   :educations,
+    #   :skills,
+    #   :languages,
+    #   :softwares
+    # ]
   end
 
   # POST /resumes
@@ -57,6 +68,6 @@ class ResumesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def resume_params
-    params.expect(resume: [:user_id, :title, :full_name, :job_title, :summary, :email, :phone, :address, :linkedin_url, :website_url])
+    params.expect(resume: [ :user_id, :title, :full_name, :job_title, :summary, :email, :phone, :address, :linkedin_url, :website_url ])
   end
 end

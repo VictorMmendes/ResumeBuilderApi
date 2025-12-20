@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    <%= File.read(Rails.root.join('app', 'assets', 'stylesheets', 'pdf.css')) %>
+    <%= File.read(Rails.root.join('app', 'assets', 'stylesheets', 'bootstrap.min.css')).html_safe %>
+  </style>
+</head>
+<body>
+<div class="container-fluid p-0">
+  <%= yield %>
+</div>
+</body>
+</html>

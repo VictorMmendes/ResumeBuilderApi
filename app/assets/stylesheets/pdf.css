@@ -1,0 +1,137 @@
+/* Força o tamanho A4 e remove margens extras do Bootstrap */
+@page {
+    margin: 0;
+    size: A4;
+}
+
+* {
+    color: #374957;
+}
+
+html, body {
+    width: 210mm; /* Largura A4 exata */
+    height: 100%; /* Permite crescer verticalmente */
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; /* Fonte padrão segura */
+}
+
+/* Corrige o Grid do Bootstrap para impressão */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+/* Remove padding lateral padrão das colunas se quiser full-width */
+.col, [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+body {
+    padding: 18px;
+}
+
+.avatar {
+    border-radius: 50%;
+}
+
+h1 {
+    font-size: 22px !important;
+}
+
+h2 {
+    font-size: 20px !important;
+}
+
+h3 {
+    font-size: 18px !important;
+}
+
+h4 {
+    font-size: 16px !important;
+}
+
+h5 {
+    font-size: 14px !important;
+}
+
+h6 {
+    font-size: 12px !important;
+}
+
+h1, h2, h3, h4, h5 {
+    margin: 0;
+}
+
+.accent {
+    color: #4d197c;
+}
+
+.title {
+    font-weight: bold !important;
+}
+
+.section-icon-dot {
+    display: flex;
+    justify-content: center;
+    padding-top: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #4d197c;
+    z-index: 2;
+    margin-top: -6px;
+}
+
+.section-icon-dot img {
+    width: 16px;
+    height: 16px;
+}
+
+.main-section {
+    margin-top: 20px;
+}
+
+.thread-effect {
+    border-left: 1px solid #d9d9d9;
+    margin-left: -28px;
+    z-index: 1;
+}
+
+.experience-item {
+    margin-left: -4px;
+    padding-bottom: 18px;
+}
+
+.experience-item h4 {
+    padding-left: 12px;
+}
+
+.experience-item h5 {
+    padding-left: 5px;
+}
+
+.experience-item h6 {
+    font-weight: normal !important;
+    padding-left: 5px;
+}
+
+.experience-item ul li {
+    font-size: 12px;
+}
+
+.experience-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #4d197c;
+}
+
+.date-working {
+    position: absolute;
+    right: 70px;
+    top: 2px;
+    font-size: 10px !important;
+    text-align: left;
+}
