@@ -1,188 +1,145 @@
-# Limpar banco de dados existente para evitar duplicatas ao rodar seeds
 puts "Limpando banco de dados..."
+Hobby.destroy_all
+Project.destroy_all
+TechnicalSkill.destroy_all
 Language.destroy_all
 Software.destroy_all
 Skill.destroy_all
 Education.destroy_all
 Experience.destroy_all
 Resume.destroy_all
-User.destroy_all
+# Não vamos deletar o usuário para manter o ID 4 se possível, mas vamos garantir que ele exista
+user = User.find_or_create_by!(id: 4) do |u|
+  u.email = 'victormmendes.vm@icloud.com'
+end
+user.update!(email: 'victormmendes.vm@icloud.com') if user.email != 'victormmendes.vm@icloud.com'
 
-puts "Criando usuário..."
-# Criando o usuário base com o e-mail do PDF
-user = User.create!(email: 'victormmendes.vm@icloud.com')
-
-puts "Criando currículo..."
-# Criando o currículo principal
+puts "Criando currículo principal..."
 resume = user.resumes.create!(
-  title: "Currículo Full Stack",
+  title: "Currículo Sênior",
   full_name: "Victor Mendes",
-  job_title: "Desenvolvedor e Analista de sistemas",
-  summary: "Busco uma oportunidade para me recolocar no mercado de trabalho para me desenvolver e atuar na área de desenvolvimento de software, estou disposto a aplicar meus conhecimentos já adquiridos e também aprender quaisquer tecnologias exigidas para suprir as necessidades da empresa.",
+  job_title: "Desenvolvedor e Analista de Sistemas",
+  summary: "Engenheiro de Software com foco em arquitetura de alta escala e impacto de negócio. Especialista em Engenharia de Software e DevOps (PUC-PR), com sólida experiência na implementação de Clean Architecture e Vertical Slice Architecture (VSA). Atualmente consolidando conhecimentos avançados no ecossistema Kotlin Backend (JVM, Coroutines e Performance) via Deep Dive intensivo para atuação em nível Sênior. Atuação pautada por um \"Architecture-first approach\" e decisões orientadas a dados para resolver problemas complexos em domínios críticos como indústria, logística e varejo.",
   email: "victormmendes.vm@icloud.com",
   phone: "+55 41 991959007",
   address: "Paranaguá, PR, 83209570",
-  linkedin_url: "https://www.linkedin.com/in/victor-mendes-martins-19878b180"
+  linkedin_url: "https://www.linkedin.com/in/victor-mendes-martins-19878b180",
+  github_url: "https://github.com/VictorMmendes",
+  old_experiences_summary: "• Outras 3 experiências profissionais anteriores em desenvolvimento (PHP, C# e Mobile) disponíveis para consulta."
 )
+
+# Anexar avatar
+avatar_path = Rails.root.join("app", "assets", "images", "IMG_7090.jpg")
+if File.exist?(avatar_path)
+  resume.avatar.attach(io: File.open(avatar_path), filename: "IMG_7090.jpg", content_type: "image/jpeg")
+end
 
 puts "Criando experiências profissionais..."
-# 1. MPS Informática
-resume.experiences.create!(
-  job_title: "Programador de Computadores",
-  company: "MPS Informática",
-  location: "Curitiba, Paraná",
-  start_date: Date.new(2020, 11, 1),
-  end_date: Date.new(2021, 3, 1),
-  current: false,
-  description: "• Arquitetura de Soluções
-• Desenvolvimento de aplicativos com Make Power Apps
-• Criação de Plugin C# para Dynamics da Microsoft
-• Desenvolvimento CRM com Dynamics 365
-• Gerenciamento de soluções em ambiente Dev, Acc e Prod
-• Criação de views, forms, security roles, flows e outros componentes na plataforma Dynamics 365
-• Gerenciamento de componentes em ambiente CRM com Xrm ToolBox
-• Desenvolvimento iOS e android com Xamarin Forms"
-)
-
-# 2. Genesis Company
-resume.experiences.create!(
-  job_title: "Desenvolvedor Junior",
-  company: "Genesis Company",
-  location: "Florianópolis, Santa Catarina (Remote)",
-  start_date: Date.new(2020, 9, 1),
-  end_date: Date.new(2020, 11, 1), # Estimado baseando-se na próxima exp
-  current: false,
-  description: "• Modelagem de banco de dados
-• Levantamento de requisitos"
-)
-
-# 3. AG&BM
-resume.experiences.create!(
-  job_title: "Desenvolvedor Web/Mobile",
-  company: "AG&BM",
-  location: "Paranaguá, Paraná",
-  start_date: Date.new(2020, 1, 1),
-  end_date: Date.new(2020, 9, 1),
-  current: false,
-  description: "• Levantamento de requisitos
-• Modelagem de banco de dados
-• Web Design & UIX
-• Desenvolvimento Web Laravel
-• Desenvolvimento Web Ruby on Rails
-• Photoshop CC
-• Desenvolvimento de aplicativos com React Native
-• Desenvolvimento de aplicativos com Kotlin
-• Criação de APIS"
-)
-
-# 4. Infotech Sistemas
-resume.experiences.create!(
-  job_title: "Desenvolvedor Aplicativo",
-  company: "Infotech Sistemas",
-  location: "Paranaguá, Paraná",
-  start_date: Date.new(2019, 6, 1),
-  end_date: Date.new(2019, 10, 1),
-  current: false,
-  description: "• Modelagem de banco de dados
-• Desenvolvimento de aplicativos com Kotlin, incluindo funcionalidades como pagamento via QrCode, sincronização local e remota, Google Maps API e Firebase
-• Criação de APIs com PHP 7.2
-• Desenvolvimento de Layouts (HTML5 e CSS3)
-• Animações gráficas (CSS3)"
-)
+resume.experiences.create!([
+                             {
+                               job_title: "Engenheiro de Software Full Stack",
+                               company: "Puzl Place",
+                               location: "São Paulo (Remoto)",
+                               start_date: Date.new(2023, 4, 1),
+                               current: true,
+                               description: "Liderança técnica no desenvolvimento de soluções críticas para o setor de concreteiras (indústria e logística), utilizando Laravel e PHP com foco em Clean Architecture e Vertical Slice Architecture (VSA).\nDesenvolvimento de rotinas complexas de negócio, processamento assíncrono (Jobs) e motores de geração de relatórios industriais avançados em PDF.\nModelagem avançada e otimização de queries em ORMs para cenários de alta demanda, garantindo a escalabilidade e performance do sistema.\nDesenvolvimento de interfaces modernas e performáticas com Vue 2/3, aplicando princípios SOLID e componentização para garantir baixo acoplamento."
+                             },
+                             {
+                               job_title: "Desenvolvedor Front-end & Mobile Pleno",
+                               company: "Telecom Sistemas",
+                               location: "Rio Grande do Sul (Remoto)",
+                               start_date: Date.new(2022, 1, 1),
+                               end_date: Date.new(2023, 4, 1),
+                               current: false,
+                               description: "Arquitetura e desenvolvimento de um sistema completo de gestão ERP para grandes redes de supermercados, utilizando AngularJS para manipulação massiva de dados e tabelas dinâmicas.\nDesenvolvimento de um ecossistema mobile integrado em Flutter para automação comercial, permitindo venda direta, cadastro de produtos e gestão de estoque/logística.\nImplementação do projeto \"Estoque Inteligente\": uso de Business Intelligence e análise de dados para identificar tendências de venda baseadas em sazonalidade e geolocalização.\nFoco em Data-driven decisions e Architecture-first approach para otimizar a distribuição de itens entre unidades da rede."
+                             },
+                             {
+                               job_title: "Desenvolvedor de Sistemas (Dynamics 365 / .NET)",
+                               company: "MPS Informática",
+                               location: "Curitiba, Paraná",
+                               start_date: Date.new(2021, 3, 1),
+                               end_date: Date.new(2021, 12, 1),
+                               current: false,
+                               description: "Desenvolvimento de plugins C# avançados e customizações para Microsoft Dynamics 365, aplicando Clean Code, XrmToolBox e integração de APIs REST.\nArquitetura de aplicativos mobile com Xamarin Forms (XAML/MVVM Pattern), focando em Clean Architecture e gerenciamento eficiente de APIs.\nOtimização de processos de negócio através da Power Platform (Power Apps e Power Automate).\nModelagem de banco de dados e documentação técnica de arquitetura de software."
+                             }
+                           ])
 
 puts "Criando educação..."
-resume.educations.create!(
-  institution: "Universidade Federal do Paraná",
-  degree: "Pós-Graduação: Inteligência Artificial Aplicada",
-  location: "Curitiba-PR",
-  start_date: Date.new(2021, 2, 1),
-  current: true
-)
+resume.educations.create!([
+                            {
+                              institution: "Pontifícia Universidade Católica do Paraná (PUC-PR)",
+                              degree: "Especialização: Engenharia de Software e DevOps",
+                              start_date: Date.new(2021, 2, 1),
+                              current: true
+                            },
+                            {
+                              institution: "Rocketseat",
+                              degree: "Bootcamp Rocketseat: Full Stack & Mobile",
+                              location: "Formação Node.js concluída; Especialização em Kotlin (Mobile/Backend) complementada por um Deep Dive de 30 dias em Kotlin Backend focado em JVM, Coroutines e Performance.",
+                              start_date: Date.new(2023, 1, 1),
+                              current: true
+                            },
+                            {
+                              institution: "Instituto Federal do Paraná (IFPR)",
+                              degree: "Graduação: Análise e Desenvolvimento de Sistemas",
+                              start_date: Date.new(2016, 2, 1),
+                              end_date: Date.new(2019, 6, 1),
+                              current: false
+                            }
+                          ])
 
-resume.educations.create!(
-  institution: "Instituto Federal do Paraná",
-  degree: "Graduação: Análise e desenvolvimento de sistemas",
-  location: "Paranaguá-PR",
-  start_date: Date.new(2016, 2, 1),
-  end_date: Date.new(2019, 6, 1),
-  current: false
-)
-
-resume.educations.create!(
-  institution: "I.E.E Dr. Caetano Munhoz da Rocha",
-  degree: "Ensino Médio",
-  location: "Paranaguá-PR",
-  start_date: Date.new(2007, 2, 1),
-  end_date: Date.new(2013, 6, 1),
-  current: false
-)
-
-resume.educations.create!(
-  institution: "CECAP",
-  degree: "Curso Profissionalizante: Informática Básica",
-  location: "Paranaguá-PR",
-  start_date: Date.new(2013, 2, 1),
-  end_date: Date.new(2013, 8, 1),
-  current: false
-)
-
-resume.educations.create!(
-  institution: "SENAI",
-  degree: "Curso Técnico: Eletrotécnica",
-  location: "Paranaguá-PR",
-  start_date: Date.new(2014, 2, 1),
-  end_date: Date.new(2015, 11, 1),
-  current: false
-)
-
-resume.educations.create!(
-  institution: "SENAI",
-  degree: "Curso Técnico: Administração",
-  location: "Paranaguá-PR",
-  start_date: Date.new(2014, 2, 1),
-  end_date: Date.new(2015, 11, 1),
-  current: false
-)
-
-puts "Criando habilidades..."
-skills_list = [
-  { name: "Programação de computadores (OO)", level: 5 },
-  { name: "Modelagem de banco de dados", level: 5 },
-  { name: "Documentação de software", level: 4 },
-  { name: "MySQL / PostgreSQL", level: 4 },
-  { name: "PHP / Laravel", level: 4 },
-  { name: "HTML5 / CSS / Web Design", level: 5 },
-  { name: "VueJS", level: 3 },
-  { name: "ReactJS / React Native", level: 3 },
-  { name: "Ruby on Rails", level: 4 },
-  { name: "Ionic / AngularJS", level: 3 },
-  { name: "Kotlin", level: 3 },
-  { name: "Web Service / APIs / JSON", level: 5 },
-  { name: "Java", level: 3 },
-  { name: "C / C++ / C#", level: 3 },
-  { name: "Git", level: 4 }
+puts "Criando competências técnicas..."
+technical_skills = [
+  { category: "Backend & Arquitetura", name: "Kotlin (JVM/Coroutines), Laravel, PHP, Node.js, Ruby on Rails, C# (.NET), Clean Architecture, Vertical Slice Architecture (VSA), DDD, SOLID, Clean Code." },
+  { category: "Frontend", name: "Vue 2/3, React, AngularJS, JavaScript (ES6+), HTML5/CSS3, Componentização, Reaproveitamento de Código." },
+  { category: "Mobile", name: "Flutter, Kotlin (Nativo), Xamarin Forms, MVVM Pattern, APIs RESTful, Gerenciamento de Memória." },
+  { category: "Cloud & DevOps", name: "Docker, CI/CD, Observabilidade (Monitoring), Git/GitHub, Gerenciamento de Ambientes (Dev/Acc/Prod)." },
+  { category: "Dados & BI", name: "MySQL, PostgreSQL, Business Intelligence, Data-driven decisions, Modelagem Avançada de Dados." }
 ]
+technical_skills.each { |ts| resume.technical_skills.create!(ts) }
 
-skills_list.each do |skill|
-  resume.skills.create!(skill)
-end
+puts "Criando soft skills..."
+[
+  [ "Resolução de Problemas", 5 ],
+  [ "Arquitetura de Soluções", 5 ],
+  [ "Clean Code", 5 ],
+  [ "Liderança Técnica", 4 ],
+  [ "Comunicação", 4 ]
+].each { |name, level| resume.skills.create!(name: name, level: level) }
 
 puts "Criando softwares..."
-software_list = [
-  { name: "Photoshop CC", level: 5 },
-  { name: "MySQL Workbench", level: 5 },
-  { name: "Android Studio", level: 4 },
-  { name: "Illustrator CC", level: 3 },
-  { name: "Office", level: 5 }
-]
-
-software_list.each do |soft|
-  resume.softwares.create!(soft)
-end
+[
+  [ "XrmToolBox", 5 ],
+  [ "MySQL Workbench", 5 ],
+  [ "Android Studio", 5 ],
+  [ "Photoshop / Maya", 4 ],
+  [ "Docker / Git", 5 ]
+].each { |name, level| resume.softwares.create!(name: name, level: level) }
 
 puts "Criando idiomas..."
-resume.languages.create!(name: "Português", level: 5) # Nativo
-resume.languages.create!(name: "Inglês", level: 3) # Intermediário (inferido pelos cursos)
-resume.languages.create!(name: "Francês", level: 1) # Básico
+[
+  [ "Português", 5 ],
+  [ "Inglês", 5 ],
+  [ "Francês", 2 ]
+].each { |name, level| resume.languages.create!(name: name, level: level) }
+
+puts "Criando projetos..."
+resume.projects.create!([
+                          { title: "ERP Industrial - Concreteiras (Laravel/VSA)", description: "Sistema crítico de gestão industrial e logística, implementando Vertical Slice Architecture para alta manutenibilidade e processamento assíncrono de rotinas complexas." },
+                          { title: "Projeto 'Estoque Inteligente' (Flutter/BI)", description: "Ecossistema mobile integrado com Business Intelligence para gestão preditiva de estoque e análise de tendências de venda baseadas em sazonalidade e geolocalização." }
+                        ])
+
+puts "Criando hobbies..."
+[
+  [ "Pesquisa e Interesses", "Game Development (Unity/Maya)" ],
+  [ "Pesquisa e Interesses", "Modern Architectures (VSA, DDD)" ],
+  [ "Pesquisa e Interesses", "Desenvolvimento Android Nativo" ],
+  [ "Pesquisa e Interesses", "Agentes de IA" ],
+  [ "Pesquisa e Interesses", "Desafios de programação" ],
+  [ "Pesquisa e Interesses", "Mercado Financeiro e Investimentos" ],
+  [ "Entretenimento", "Exploração Tecnológica" ],
+  [ "Entretenimento", "Viajar" ],
+  [ "Entretenimento", "Inteligência Artificial" ]
+].each { |cat, name| resume.hobbies.create!(category: cat, name: name) }
 
 puts "Concluído! Dados do Victor Mendes inseridos com sucesso."

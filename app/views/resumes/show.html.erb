@@ -1,3 +1,4 @@
+<% resume ||= @resume %>
 <div class="row">
   <main class="col-9 pr-0">
     <header class="header">
@@ -5,16 +6,16 @@
         <div class="row">
           <div class="col-3 d-flex justify-content-end">
             <img
-              src="<%= ApplicationHelper.embed_image('IMG_7090.jpg') %>"
-              alt="Victor Mendes"
+              src="<%= ApplicationHelper.embed_attachment(resume.avatar) %>"
+              alt="<%= resume.full_name %>"
               class="avatar"
               width="75"
               height="75"
             >
           </div>
           <div class="col-9 d-flex flex-column gap-0 pt-2">
-            <h1 class="accent title">Victor Mendes</h1>
-            <h5 class="title">Desenvolvedor e Analista de Sistemas</h5>
+            <h1 class="accent title"><%= resume.full_name %></h1>
+            <h5 class="title"><%= resume.job_title %></h5>
           </div>
         </div>
       </div>
@@ -37,14 +38,7 @@
                 </div>
                 <div class="col">
                   <h6>
-                    Engenheiro de Software com foco em arquitetura de alta escala e impacto de negócio. Especialista em
-                    Engenharia de Software e DevOps (PUC-PR), com sólida experiência na implementação de Clean
-                    Architecture e Vertical Slice Architecture (VSA). Atualmente consolidando conhecimentos avançados no
-                    ecossistema <strong>Kotlin Backend (JVM, Coroutines e Performance)</strong> via Deep Dive intensivo
-                    para atuação em nível Sênior. Atuação pautada por um "Architecture-first approach" e decisões
-                    orientadas a dados para resolver problemas complexos em domínios críticos como indústria, logística
-                    e
-                    varejo.
+                    <%= resume.summary %>
                   </h6>
                 </div>
               </div>
@@ -60,107 +54,40 @@
           <div class="col-9 thread-effect">
             <div class="experience-item">
               <h4 class="accent title">Experiência Profissional</h4>
-              <!-- Puzl Place -->
-              <div class="row pb-2 position-relative">
-                <h5 class="date-working">
-                  04/2023 -<br>Atual
-                </h5>
-                <div class="col-auto pt-2 px-0">
-                  <div class="experience-dot">
+              <% resume.experiences.order(start_date: :desc).each do |experience| %>
+                <div class="row pb-2 position-relative">
+                  <h5 class="date-working">
+                    <%= experience.start_date.strftime("%m/%Y") %> -<br>
+                    <%= experience.current ? 'Atual' : experience.end_date&.strftime("%m/%Y") %>
+                  </h5>
+                  <div class="col-auto pt-2 px-0">
+                    <div class="experience-dot">
+                    </div>
+                  </div>
+                  <div class="col">
+                    <h5 class="title">
+                      <%= experience.job_title %>
+                    </h5>
+                    <h6>
+                      <%= experience.company %><%= ", #{experience.location}" if experience.location.present? %>
+                    </h6>
+                    <ul>
+                      <% experience.description.split("\n").each do |item| %>
+                        <li><%= item %></li>
+                      <% end %>
+                    </ul>
                   </div>
                 </div>
-                <div class="col">
-                  <h5 class="title">
-                    Engenheiro de Software Full Stack
-                  </h5>
-                  <h6>
-                    Puzl Place, São Paulo (Remoto)
-                  </h6>
-                  <ul>
-                    <li>Liderança técnica no desenvolvimento de soluções críticas para o setor de concreteiras
-                      (indústria e logística), utilizando Laravel e PHP com foco em Clean Architecture e Vertical Slice
-                      Architecture (VSA).
-                    </li>
-                    <li>Desenvolvimento de rotinas complexas de negócio, processamento assíncrono (Jobs) e motores de
-                      geração de relatórios industriais avançados em PDF.
-                    </li>
-                    <li>Modelagem avançada e otimização de queries em ORMs para cenários de alta demanda, garantindo a
-                      escalabilidade e performance do sistema.
-                    </li>
-                    <li>Desenvolvimento de interfaces modernas e performáticas com Vue 2/3, aplicando princípios SOLID e
-                      componentização para garantir baixo acoplamento.
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <!-- Telecom Sistemas -->
-              <div class="row pb-2 position-relative">
-                <h5 class="date-working">
-                  01/2022 -<br>04/2023
-                </h5>
-                <div class="col-auto pt-2 px-0">
-                  <div class="experience-dot">
+              <% end %>
+              <% if resume.old_experiences_summary.present? %>
+                <div class="row">
+                  <div class="col-12 ps-4 mt-1">
+                    <h6 class="small">
+                      <%= resume.old_experiences_summary %>
+                    </h6>
                   </div>
                 </div>
-                <div class="col">
-                  <h5 class="title">
-                    Desenvolvedor Front-end & Mobile Pleno
-                  </h5>
-                  <h6>
-                    Telecom Sistemas, Rio Grande do Sul (Remoto)
-                  </h6>
-                  <ul>
-                    <li>Arquitetura e desenvolvimento de um sistema completo de gestão ERP para grandes redes de
-                      supermercados, utilizando AngularJS para manipulação massiva de dados e tabelas dinâmicas.
-                    </li>
-                    <li>Desenvolvimento de um ecossistema mobile integrado em Flutter para automação comercial,
-                      permitindo venda direta, cadastro de produtos e gestão de estoque/logística.
-                    </li>
-                    <li>Implementação do projeto "Estoque Inteligente": uso de Business Intelligence e análise de dados
-                      para identificar tendências de venda baseadas em sazonalidade e geolocalização.
-                    </li>
-                    <li>Foco em Data-driven decisions e Architecture-first approach para otimizar a distribuição de
-                      itens entre unidades da rede.
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <!-- MPS Informática -->
-              <div class="row pb-2 position-relative">
-                <h5 class="date-working">
-                  03/2021 -<br>12/2021
-                </h5>
-                <div class="col-auto pt-2 px-0">
-                  <div class="experience-dot">
-                  </div>
-                </div>
-                <div class="col">
-                  <h5 class="title">
-                    Desenvolvedor de Sistemas (Dynamics 365 / .NET)
-                  </h5>
-                  <h6>
-                    MPS Informática, Curitiba, Paraná
-                  </h6>
-                  <ul>
-                    <li>Desenvolvimento de plugins C# avançados e customizações para Microsoft Dynamics 365, aplicando
-                      Clean Code, XrmToolBox e integração de APIs REST.
-                    </li>
-                    <li>Arquitetura de aplicativos mobile com Xamarin Forms (XAML/MVVM Pattern), focando em Clean
-                      Architecture e gerenciamento eficiente de APIs.
-                    </li>
-                    <li>Otimização de processos de negócio através da Power Platform (Power Apps e Power Automate).</li>
-                    <li>Modelagem de banco de dados e documentação técnica de arquitetura de software.</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12 ps-4 mt-1">
-                  <h6 class="small">
-                    • Outras 3 experiências profissionais anteriores em desenvolvimento (PHP, C# e Mobile) disponíveis
-                    para consulta.
-                  </h6>
-                </div>
-              </div>
+              <% end %>
             </div>
           </div>
         </div>
@@ -173,61 +100,31 @@
           <div class="col-9 thread-effect">
             <div class="experience-item">
               <h4 class="accent title">Educação</h4>
-              <!-- PUC-PR -->
-              <div class="row pb-2 position-relative">
-                <h5 class="date-working">
-                  02/2021 -<br>Atual
-                </h5>
-                <div class="col-auto pt-2 px-0">
-                  <div class="experience-dot">
+              <% resume.educations.order(start_date: :desc).each do |education| %>
+                <div class="row pb-2 position-relative">
+                  <h5 class="date-working">
+                    <%= education.start_date.strftime("%m/%Y") %> -<br>
+                    <%= education.current ? 'Atual' : education.end_date&.strftime("%m/%Y") %>
+                  </h5>
+                  <div class="col-auto pt-2 px-0">
+                    <div class="experience-dot">
+                    </div>
+                  </div>
+                  <div class="col">
+                    <h5 class="title">
+                      <%= education.degree %>
+                    </h5>
+                    <h6>
+                      <%= education.institution %>
+                    </h6>
+                    <% if education.location.present? %>
+                      <h6>
+                        <%= education.location %>
+                      </h6>
+                    <% end %>
                   </div>
                 </div>
-                <div class="col">
-                  <h5 class="title">
-                    Especialização: Engenharia de Software e DevOps
-                  </h5>
-                  <h6>
-                    Pontifícia Universidade Católica do Paraná (PUC-PR)
-                  </h6>
-                </div>
-              </div>
-              <!-- Rocketseat -->
-              <div class="row pb-2 position-relative">
-                <h5 class="date-working">
-                  2023 -<br>Atual
-                </h5>
-                <div class="col-auto pt-2 px-0">
-                  <div class="experience-dot">
-                  </div>
-                </div>
-                <div class="col">
-                  <h5 class="title">
-                    Bootcamp Rocketseat: Full Stack & Mobile
-                  </h5>
-                  <h6>
-                    Formação Node.js concluída; Especialização em Kotlin (Mobile/Backend) complementada por um
-                    <strong>Deep Dive de 30 dias em Kotlin Backend</strong> focado em JVM, Coroutines e Performance.
-                  </h6>
-                </div>
-              </div>
-              <!-- IFPR -->
-              <div class="row pb-2 position-relative">
-                <h5 class="date-working">
-                  02/2016 -<br>06/2019
-                </h5>
-                <div class="col-auto pt-2 px-0">
-                  <div class="experience-dot">
-                  </div>
-                </div>
-                <div class="col">
-                  <h5 class="title">
-                    Graduação: Análise e Desenvolvimento de Sistemas
-                  </h5>
-                  <h6>
-                    Instituto Federal do Paraná (IFPR)
-                  </h6>
-                </div>
-              </div>
+              <% end %>
             </div>
           </div>
         </div>
@@ -243,18 +140,9 @@
               <h4 class="accent title">Competências Técnicas</h4>
               <div class="row ps-2">
                 <div class="col-12">
-                  <h6 class="mb-1"><strong>Backend & Arquitetura:</strong> Kotlin (JVM/Coroutines), Laravel, PHP,
-                    Node.js,
-                    Ruby on Rails, C# (.NET), Clean Architecture, Vertical Slice Architecture (VSA), DDD, SOLID,
-                    Clean Code.</h6>
-                  <h6 class="mb-1"><strong>Frontend:</strong> Vue 2/3, React, AngularJS, JavaScript (ES6+), HTML5/CSS3,
-                    Componentização, Reaproveitamento de Código.</h6>
-                  <h6 class="mb-1"><strong>Mobile:</strong> Flutter, Kotlin (Nativo), Xamarin Forms, MVVM Pattern, APIs
-                    RESTful, Gerenciamento de Memória.</h6>
-                  <h6 class="mb-1"><strong>Cloud & DevOps:</strong> Docker, CI/CD, Observabilidade (Monitoring),
-                    Git/GitHub, Gerenciamento de Ambientes (Dev/Acc/Prod).</h6>
-                  <h6 class="mb-1"><strong>Dados & BI:</strong> MySQL, PostgreSQL, Business Intelligence, Data-driven
-                    decisions, Modelagem Avançada de Dados.</h6>
+                  <% resume.technical_skills.each do |ts| %>
+                    <h6 class="mb-1"><strong><%= ts.category %>:</strong> <%= ts.name %></h6>
+                  <% end %>
                 </div>
               </div>
             </div>
@@ -271,16 +159,12 @@
             <div class="experience-item">
               <h4 class="accent title">Projetos em Destaque</h4>
               <div class="row ps-2">
-                <div class="col-12 mb-2">
-                  <h5 class="title">ERP Industrial - Concreteiras (Laravel/VSA)</h5>
-                  <h6>Sistema crítico de gestão industrial e logística, implementando Vertical Slice Architecture para
-                    alta manutenibilidade e processamento assíncrono de rotinas complexas.</h6>
-                </div>
-                <div class="col-12">
-                  <h5 class="title">Projeto 'Estoque Inteligente' (Flutter/BI)</h5>
-                  <h6>Ecossistema mobile integrado com Business Intelligence para gestão preditiva de estoque e análise
-                    de tendências de venda baseadas em sazonalidade e geolocalização.</h6>
-                </div>
+                <% resume.projects.each do |project| %>
+                  <div class="col-12 mb-2">
+                    <h5 class="title"><%= project.title %></h5>
+                    <h6><%= project.description %></h6>
+                  </div>
+                <% end %>
               </div>
             </div>
           </div>
@@ -300,28 +184,28 @@
       <div class="contact-list ps-4">
         <div class="contact-item mb-2">
           <h6 class="title mb-0">Endereço</h6>
-          <span class="small">Paranaguá, PR, 83209570</span>
+          <span class="small"><%= resume.address %></span>
         </div>
         <div class="contact-item mb-2">
           <h6 class="title mb-0">Telefone</h6>
-          <span class="small">+55 41 991959007</span>
+          <span class="small"><%= resume.phone %></span>
         </div>
         <div class="contact-item mb-2">
           <h6 class="title mb-0">E-mail</h6>
           <span class="small">
-            <a href="mailto:victormmendes.vm@icloud.com?subject=Nosso novo Senior" class="text-decoration-none">victormmendes.vm@icloud.com</a>
+            <a href="mailto:<%= resume.email %>?subject=Nosso novo Senior" class="text-decoration-none"><%= resume.email %></a>
           </span>
         </div>
         <div class="contact-item mb-2">
           <h6 class="title mb-0">LinkedIn</h6>
           <span class="small text-break">
-            <a href="https://www.linkedin.com/in/victor-mendes-martins-19878b180" target="_blank" class="text-decoration-none">linkedin.com/in/victor-mendes-martins-19878b180</a>
+            <a href="<%= resume.linkedin_url %>" target="_blank" class="text-decoration-none"><%= resume.linkedin_url.gsub("https://www.", "") %></a>
           </span>
         </div>
         <div class="contact-item mb-2">
           <h6 class="title mb-0">GitHub</h6>
           <span class="small text-break">
-            <a href="https://github.com/VictorMmendes" target="_blank" class="text-decoration-none">github.com/VictorMmendes</a>
+            <a href="<%= resume.github_url %>" target="_blank" class="text-decoration-none"><%= resume.github_url.gsub("https://", "") %></a>
           </span>
         </div>
       </div>
@@ -335,18 +219,12 @@
         <h3 class="accent title pt-2">Soft Skills</h3>
       </div>
       <div class="skills-list ps-4">
-        <% [
-             [ "Resolução de Problemas", 5 ],
-             [ "Arquitetura de Soluções", 5 ],
-             [ "Clean Code", 5 ],
-             [ "Liderança Técnica", 4 ],
-             [ "Comunicação", 4 ]
-           ].each do |name, level| %>
+        <% resume.skills.each do |skill| %>
           <div class="skill-item mb-2 d-flex flex-column align-items-end">
-            <div class="small w-100 text-start"><%= name %></div>
+            <div class="small w-100 text-start"><%= skill.name %></div>
             <div class="skill-dots d-flex gap-1">
               <% 5.times do |i| %>
-                <div class="skill-dot <%= i < level ? 'filled' : '' %>"></div>
+                <div class="skill-dot <%= i < skill.level ? 'filled' : '' %>"></div>
               <% end %>
             </div>
           </div>
@@ -362,18 +240,12 @@
         <h3 class="accent title pt-2">Software</h3>
       </div>
       <div class="skills-list ps-4">
-        <% [
-             [ "XrmToolBox", 5 ],
-             [ "MySQL Workbench", 5 ],
-             [ "Android Studio", 5 ],
-             [ "Photoshop / Maya", 4 ],
-             [ "Docker / Git", 5 ]
-           ].each do |name, level| %>
+        <% resume.softwares.each do |software| %>
           <div class="skill-item mb-2 d-flex flex-column align-items-end">
-            <div class="small w-100 text-start"><%= name %></div>
+            <div class="small w-100 text-start"><%= software.name %></div>
             <div class="skill-dots d-flex gap-1">
               <% 5.times do |i| %>
-                <div class="skill-dot <%= i < level ? 'filled' : '' %>"></div>
+                <div class="skill-dot <%= i < software.level ? 'filled' : '' %>"></div>
               <% end %>
             </div>
           </div>
@@ -390,16 +262,12 @@
       </div>
       <div class="skills-list ps-4">
         <div class="mb-3">
-          <% [
-               [ "Português", 5 ],
-               [ "Inglês", 5 ],
-               [ "Francês", 2 ]
-             ].each do |name, level| %>
+          <% resume.languages.each do |language| %>
             <div class="skill-item mb-1 d-flex flex-column align-items-end">
-              <div class="small w-100 text-start"><%= name %></div>
+              <div class="small w-100 text-start"><%= language.name %></div>
               <div class="skill-dots d-flex gap-1">
                 <% 5.times do |i| %>
-                  <div class="skill-dot <%= i < level ? 'filled' : '' %>"></div>
+                  <div class="skill-dot <%= i < language.level ? 'filled' : '' %>"></div>
                 <% end %>
               </div>
             </div>
@@ -416,21 +284,14 @@
       </div>
       <div class="skills-list ps-4">
         <div class="mb-3">
-          <div>
-            <h6 class="title mb-1 small">Pesquisa e Interesses</h6>
-            <div class="small">Game Development (Unity/Maya)</div>
-            <div class="small">Modern Architectures (VSA, DDD)</div>
-            <div class="small">Desenvolvimento Android Nativo</div>
-            <div class="small">Agentes de IA</div>
-            <div class="small">Desafios de programação</div>
-            <div class="small">Mercado Financeiro e Investimentos</div>
-          </div>
-          <div>
-            <h6 class="title mt-3 mb-1 small">Entretenimento</h6>
-            <div class="small">Exploração Tecnológica</div>
-            <div class="small">Viajar</div>
-            <div class="small">Inteligência Artificial</div>
-          </div>
+          <% resume.hobbies.group_by(&:category).each do |category, hobbies| %>
+            <div>
+              <h6 class="title <%= 'mt-3' unless category == resume.hobbies.first&.category %> mb-1 small"><%= category %></h6>
+              <% hobbies.each do |hobby| %>
+                <div class="small"><%= hobby.name %></div>
+              <% end %>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>

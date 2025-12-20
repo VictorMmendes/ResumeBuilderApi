@@ -18,4 +18,13 @@ module ApplicationHelper
     base64 = Base64.strict_encode64(asset)
     "data:image/#{ext};base64,#{base64}"
   end
+
+  def embed_attachment(attachment)
+    return "" unless attachment.attached?
+
+    asset = attachment.download
+    ext = attachment.filename.extension_with_delimiter.delete(".")
+    base64 = Base64.strict_encode64(asset)
+    "data:image/#{ext};base64,#{base64}"
+  end
 end

@@ -1,5 +1,5 @@
 class ResumesController < ApplicationController
-  before_action :set_resume, only: %i[ show update destroy ]
+  before_action :set_resume, only: %i[ show update destroy export ]
 
   # GET /resumes
   def index
@@ -14,24 +14,24 @@ class ResumesController < ApplicationController
 
   # GET /resumes/1
   def show
-    pdf = PdfGeneratorService.new("resumes/show", {
-      resume: @resume, include: [
-        :experiences,
-        :educations,
-        :skills,
-        :languages,
-        :softwares
-      ]
-    }).call
-    send_data pdf, type: "application/pdf", disposition: "inline"
+    render json: @resume, include: [
+      :experiences,
+      :educations,
+      :skills,
+      :languages,
+      :softwares,
+      :technical_skills,
+      :projects,
+      :hobbies
+    ], methods: [ :avatar_url ]
+  end
 
-    # render json: @resume, include: [
-    #   :experiences,
-    #   :educations,
-    #   :skills,
-    #   :languages,
-    #   :softwares
-    # ]
+  # GET /resumes/1/export
+  def export
+    pdf = PdfGeneratorService.new("resumes/show", {
+      resume: @resume
+    }).call
+    send_data pdf, type: "application/pdf", disposition: "inline", filename: "#{@resume.full_name.parameterize}_resume.pdf"
   end
 
   # POST /resumes
@@ -68,6 +68,6 @@ class ResumesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def resume_params
-    params.expect(resume: [ :user_id, :title, :full_name, :job_title, :summary, :email, :phone, :address, :linkedin_url, :website_url ])
+    params.expect(resume: [ :user_id, :title, :full_name, :job_title, :summary, :email, :phone, :address, :linkedin_url, :website_url, :github_url, :old_experiences_summary, :avatar ])
   end
 end
