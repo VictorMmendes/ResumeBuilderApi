@@ -159,13 +159,17 @@ h1, h2, h3, h4, h5 {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     background-color: #4d197c;
 }
 
 .sidebar-icon-dot img {
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
+}
+
+.sidebar-section {
+    width: 150px;
 }
