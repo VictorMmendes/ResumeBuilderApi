@@ -1,5 +1,5 @@
 <div class="row">
-  <main class="col-10">
+  <main class="col-9">
     <header class="header">
       <div class="container">
         <div class="row">
@@ -409,15 +409,76 @@
     </section>
   </main>
   <!-- Preenchimento lateral -->
-  <aside class="col-2">
+  <aside class="col-3">
     <div class="sidebar-section">
-      <h3 class="sidebar-title" style="background: blue;">Contato</h3>
-      <ul class="contact-list">
-        <li>Curitiba, PR</li>
-        <li>(41) 99999-9999</li>
-        <li>victor@email.com</li>
-        <li>linkedin.com/in/victor</li>
-      </ul>
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <div class="sidebar-icon-dot">
+          <img src="<%= ApplicationHelper.embed_image('alvo.png') %>" alt="">
+        </div>
+        <h3 class="accent title">Contato</h3>
+      </div>
+      <div class="contact-list ps-4">
+        <div class="contact-item mb-2">
+          <h6 class="title mb-0">Endereço</h6>
+          <span class="small">Paranaguá, PR, 83209570</span>
+        </div>
+        <div class="contact-item mb-2">
+          <h6 class="title mb-0">Telefone</h6>
+          <span class="small">+55 41 991959007</span>
+        </div>
+        <div class="contact-item mb-2">
+          <h6 class="title mb-0">E-mail</h6>
+          <span class="small">victormmendes.vm@icloud.com</span>
+        </div>
+        <div class="contact-item mb-2">
+          <h6 class="title mb-0">LinkedIn</h6>
+          <span class="small text-break">https://www.linkedin.com/in/victor-mendes-martins-19878b180</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section mt-4">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <div class="sidebar-icon-dot">
+          <img src="<%= ApplicationHelper.embed_image('alvo.png') %>" alt="">
+        </div>
+        <h3 class="accent title">Habilidades</h3>
+      </div>
+      <div class="skills-list ps-4">
+        <% [
+             [ "Programação de computadores", 5 ],
+             [ "Uso de linguagem orientada a objetos", 5 ],
+             [ "Modelagem de banco de dados", 5 ],
+             [ "Documentação de software", 4 ],
+             [ "MySQL", 5 ],
+             [ "PostgreSQL", 3 ],
+             [ "PHP", 5 ],
+             [ "Laravel", 5 ],
+             [ "VueJS", 5 ],
+             [ "Ruby on Rails", 5 ],
+             [ "Web Service", 4 ],
+             [ "React Native", 5 ],
+             [ "ReactJS", 5 ],
+             [ "Ionic/AngularJS", 4 ],
+             [ "JavaScript", 5 ],
+             [ "Java", 3 ],
+             [ "JSON", 5 ],
+             [ "Web Design", 5 ],
+             [ "SQL", 5 ],
+             [ "C/C++", 4 ],
+             [ "C#", 3 ],
+             [ "Git", 4 ]
+           ].each do |name, level| %>
+          <div class="skill-item mb-2 d-flex flex-column align-items-end">
+            <div class="small w-100 text-start"><%= name %></div>
+            <div class="skill-dots d-flex gap-1">
+              <% 5.times do |i| %>
+                <div class="skill-dot <%= i < level ? 'filled' : '' %>"></div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
     </div>
   </aside>
 </div>
