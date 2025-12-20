@@ -65,7 +65,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .accent {
-    color: #4d197c;
+    color: #EB8C0E;
 }
 
 .title {
@@ -79,7 +79,7 @@ h1, h2, h3, h4, h5 {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background-color: #4d197c;
+    background-color: #EB8C0E;
     z-index: 2;
     margin-top: -6px;
 }
@@ -125,7 +125,7 @@ h1, h2, h3, h4, h5 {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: #4d197c;
+    background-color: #EB8C0E;
 }
 
 .date-working {
@@ -144,7 +144,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .skill-dot.filled {
-    background-color: #4d197c;
+    background-color: #EB8C0E;
 }
 
 .text-break {
@@ -162,7 +162,7 @@ h1, h2, h3, h4, h5 {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background-color: #4d197c;
+    background-color: #EB8C0E;
 }
 
 .sidebar-icon-dot img {
