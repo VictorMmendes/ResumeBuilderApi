@@ -1,5 +1,5 @@
 <div class="row">
-  <main class="col-9">
+  <main class="col-9 pr-0">
     <header class="header">
       <div class="container">
         <div class="row">
@@ -409,13 +409,13 @@
     </section>
   </main>
   <!-- Preenchimento lateral -->
-  <aside class="col-3">
+  <aside class="col-3 pl-0">
     <div class="sidebar-section">
       <div class="d-flex align-items-center gap-2 mb-2">
         <div class="sidebar-icon-dot">
           <img src="<%= ApplicationHelper.embed_image('alvo.png') %>" alt="">
         </div>
-        <h3 class="accent title">Contato</h3>
+        <h3 class="accent title pt-2">Contato</h3>
       </div>
       <div class="contact-list ps-4">
         <div class="contact-item mb-2">
@@ -442,7 +442,7 @@
         <div class="sidebar-icon-dot">
           <img src="<%= ApplicationHelper.embed_image('alvo.png') %>" alt="">
         </div>
-        <h3 class="accent title">Habilidades</h3>
+        <h3 class="accent title pt-2">Habilidades</h3>
       </div>
       <div class="skills-list ps-4">
         <% [
@@ -468,6 +468,58 @@
              [ "C/C++", 4 ],
              [ "C#", 3 ],
              [ "Git", 4 ]
+           ].each do |name, level| %>
+          <div class="skill-item mb-2 d-flex flex-column align-items-end">
+            <div class="small w-100 text-start"><%= name %></div>
+            <div class="skill-dots d-flex gap-1">
+              <% 5.times do |i| %>
+                <div class="skill-dot <%= i < level ? 'filled' : '' %>"></div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="sidebar-section mt-4">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <div class="sidebar-icon-dot">
+          <img src="<%= ApplicationHelper.embed_image('alvo.png') %>" alt="">
+        </div>
+        <h3 class="accent title pt-2">Software</h3>
+      </div>
+      <div class="skills-list ps-4">
+        <% [
+             [ "Photoshop CC", 4 ],
+             [ "MySQL Workbench", 5 ],
+             [ "Android Studio", 5 ],
+             [ "Illustrator CC", 3 ],
+             [ "Office", 3 ]
+           ].each do |name, level| %>
+          <div class="skill-item mb-2 d-flex flex-column align-items-end">
+            <div class="small w-100 text-start"><%= name %></div>
+            <div class="skill-dots d-flex gap-1">
+              <% 5.times do |i| %>
+                <div class="skill-dot <%= i < level ? 'filled' : '' %>"></div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="sidebar-section mt-4">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <div class="sidebar-icon-dot">
+          <img src="<%= ApplicationHelper.embed_image('alvo.png') %>" alt="">
+        </div>
+        <h3 class="accent title pt-2">Idiomas</h3>
+      </div>
+      <div class="skills-list ps-4">
+        <% [
+             [ "Português", 5 ],
+             [ "Inglês", 5 ],
+             [ "Francês", 2 ]
            ].each do |name, level| %>
           <div class="skill-item mb-2 d-flex flex-column align-items-end">
             <div class="small w-100 text-start"><%= name %></div>
