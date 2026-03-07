@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :experiences
   resources :resumes do
     get :export, on: :member
+    post :avatar, on: :member
   end
   resources :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

@@ -1,5 +1,5 @@
 class ResumesController < ApplicationController
-  before_action :set_resume, only: %i[ show update destroy export ]
+  before_action :set_resume, only: %i[ show update destroy export avatar ]
 
   # GET /resumes
   def index
@@ -32,6 +32,16 @@ class ResumesController < ApplicationController
       resume: @resume
     }).call
     send_data pdf, type: "application/pdf", disposition: "inline", filename: "#{@resume.full_name.parameterize}_resume.pdf"
+  end
+
+  # POST /resumes/1/avatar
+  def avatar
+    if params[:avatar].present?
+      @resume.avatar.attach(params[:avatar])
+      render json: { avatar_url: @resume.avatar_url }, status: :ok
+    else
+      render json: { error: "No avatar provided" }, status: :bad_request
+    end
   end
 
   # POST /resumes
