@@ -238,7 +238,7 @@
   }
 
   .summary-section {
-    padding-block-start: 6mm;
+    padding-block-start: 0;
   }
 
   .section-heading {
@@ -265,10 +265,20 @@
   }
 
   .resume-body {
-    display: grid;
-    grid-template-columns: minmax(0, 1.65fr) minmax(0, var(--sidebar-width));
+    display: flex;
+    align-items: flex-start;
     gap: var(--gutter);
     padding-block-start: 6mm;
+  }
+
+  .main-column {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+  }
+
+  .sidebar-column {
+    flex: 0 0 var(--sidebar-width);
+    inline-size: var(--sidebar-width);
   }
 
   .main-column,
@@ -521,24 +531,20 @@
     }
 
     .resume-body {
-      display: block;
-    }
-
-    .resume-body::after {
-      content: "";
-      display: block;
-      clear: both;
+      display: flex;
+      align-items: flex-start;
+      gap: var(--gutter);
     }
 
     .sidebar-column {
-      float: right;
-      width: var(--sidebar-width);
-      margin-inline-start: var(--gutter);
-      margin-block-start: 0;
+      inline-size: var(--sidebar-width);
+      flex: 0 0 var(--sidebar-width);
       display: block;
     }
 
     .main-column {
+      flex: 1 1 auto;
+      min-inline-size: 0;
       display: block;
     }
 
@@ -574,6 +580,7 @@
     .company-list > *,
     .education-list > *,
     .role-list > *,
+    .main-column > *,
     .sidebar-column > *,
     .certification-list > *,
     .contact-list > * {
@@ -583,6 +590,7 @@
     .company-list > *:last-child,
     .education-list > *:last-child,
     .role-list > *:last-child,
+    .main-column > *:last-child,
     .sidebar-column > *:last-child,
     .certification-list > *:last-child,
     .contact-list > *:last-child {
