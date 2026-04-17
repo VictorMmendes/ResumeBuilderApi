@@ -130,8 +130,15 @@ class ResumesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "application/pdf", response.media_type
     assert_equal "%PDF-1.4 fake", response.body
     assert_includes captured_html, "Empty Resume"
-    assert_includes captured_html, "Nenhuma experiencia cadastrada."
-    assert_includes captured_html, "Nenhuma top skill cadastrada."
+    assert_includes captured_html, "@font-face"
+    assert_includes captured_html, 'font-family: "Fredoka"'
+    assert_includes captured_html, "data:font/woff2;base64,"
+    refute_includes captured_html, "fonts.googleapis.com"
+    refute_includes captured_html, "&quot;Fredoka&quot;"
+    refute_includes captured_html, '"Segoe UI"'
+    refute_includes captured_html, "sans-serif"
+    assert_includes captured_html, "No experience entries yet."
+    assert_includes captured_html, "No top skills added."
     refute_includes captured_html, 'style="margin-bottom: 10px;"'
     assert_includes captured_html, ".education-item:last-child"
     assert_includes captured_html, "margin-block-end: 10px;"
@@ -140,16 +147,16 @@ class ResumesControllerTest < ActionDispatch::IntegrationTest
     main_column_html = captured_html[/<main class="main-column">(.*?)<\/main>/m, 1]
     sidebar_html = captured_html[/<aside class="sidebar-column">(.*?)<\/aside>/m, 1]
 
-    assert_includes main_column_html, "Resumo profissional"
-    assert_includes main_column_html, "Experiência profissional"
-    assert_includes main_column_html, "Educação"
+    assert_includes main_column_html, "Professional summary"
+    assert_includes main_column_html, "Professional experience"
+    assert_includes main_column_html, "Education"
     refute_includes main_column_html, "Top skills"
-    refute_includes main_column_html, "Certificações"
+    refute_includes main_column_html, "Certifications"
 
-    assert_includes sidebar_html, "Contato"
+    assert_includes sidebar_html, "Contact"
     assert_includes sidebar_html, "Top skills"
-    assert_includes sidebar_html, "Certificações"
-    assert_match(/profile-panel.*contact-panel.*Top skills.*Certificações/m, sidebar_html)
+    assert_includes sidebar_html, "Certifications"
+    assert_match(/profile-panel.*contact-panel.*Top skills.*Certifications/m, sidebar_html)
     refute_includes captured_html, "Soft Skills"
   end
 

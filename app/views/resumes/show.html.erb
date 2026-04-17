@@ -4,16 +4,12 @@
   require "uri"
 
   contact = payload[:contact] || {}
-  hero_location = contact[:street_address].presence || [ contact[:city], contact[:region], contact[:country] ].reject(&:blank?).join(", ")
-  base_location = if contact[:street_address].present?
-    [ contact[:street_address], contact[:country] ].reject(&:blank?).uniq.join(", ")
-  else
-    [ contact[:city], contact[:region], contact[:country] ].reject(&:blank?).uniq.join(", ")
-  end
-  format_month_year = ->(date) { date&.strftime("%m/%Y") }
+  hero_location = [ contact[:city], contact[:region], contact[:country] ].reject(&:blank?).join(", ")
+  base_location = contact[:street_address].presence || hero_location
+  format_month_year = ->(date) { date&.strftime("%B %Y") }
   format_period = lambda do |start_date, end_date, current|
     start_label = format_month_year.call(start_date)
-    end_label = current ? "Atual" : format_month_year.call(end_date)
+    end_label = current ? "Present" : format_month_year.call(end_date)
     [start_label, end_label].reject(&:blank?).join(" - ")
   end
   sanitize_link_label = lambda do |url|
@@ -26,15 +22,15 @@
   end
   profile_initials = payload[:full_name].to_s.split.filter_map { |part| part[0] }.first(2).join.upcase
   contact_entries = [
-    [ "Base", base_location, nil ],
-    [ "Telefone", contact[:phone], "tel:#{contact[:phone]}" ],
+    [ "Address", base_location, nil ],
+    [ "Phone", contact[:phone], "tel:#{contact[:phone]}" ],
     [ "Email", contact[:email], "mailto:#{contact[:email]}" ],
     [ "LinkedIn", sanitize_link_label.call(contact[:linkedin_url]), contact[:linkedin_url] ],
     [ "GitHub", sanitize_link_label.call(contact[:github_url]), contact[:github_url] ],
-    [ "Portfólio", contact[:portfolio_label], nil ]
+    [ "Portfolio", contact[:portfolio_label], nil ]
   ].select { |_, value, _| value.present? }
   facts = [
-    [ payload[:experience_groups].sum { |group| group[:positions].size }, "Posições" ],
+    [ payload[:experience_groups].sum { |group| group[:positions].size }, "Positions" ],
     [ payload[:top_skills].size, "Skills" ],
     [ payload[:certifications].size, "Certs" ]
   ]
@@ -50,7 +46,7 @@
         <p class="resume-headline"><%= payload[:headline] %></p>
       <% end %>
 
-      <ul class="meta-list" aria-label="Resumo rápido do perfil">
+      <ul class="meta-list" aria-label="Quick profile summary">
         <% if hero_location.present? %>
           <li class="meta-chip"><%= hero_location %></li>
         <% end %>
@@ -79,8 +75,8 @@
         <section class="section summary-section">
           <div class="section-heading">
             <div>
-              <p class="section-kicker">Visão Geral</p>
-              <h2 class="section-title">Resumo profissional</h2>
+              <p class="section-kicker">Overview</p>
+              <h2 class="section-title">Professional summary</h2>
             </div>
           </div>
           <p class="summary-text"><%= payload[:summary] %></p>
@@ -90,8 +86,8 @@
       <section class="section">
         <div class="section-heading">
           <div>
-            <p class="section-kicker">Trajetória</p>
-            <h2 class="section-title">Experiência profissional</h2>
+            <p class="section-kicker">Experience</p>
+            <h2 class="section-title">Professional experience</h2>
           </div>
         </div>
 
@@ -135,15 +131,15 @@
             <% end %>
           </div>
         <% else %>
-          <p class="empty-state">Nenhuma experiencia cadastrada.</p>
+          <p class="empty-state">No experience entries yet.</p>
         <% end %>
       </section>
 
       <section class="section">
         <div class="section-heading">
           <div>
-            <p class="section-kicker">Formação</p>
-            <h2 class="section-title">Educação</h2>
+            <p class="section-kicker">Education</p>
+            <h2 class="section-title">Education</h2>
           </div>
         </div>
 
@@ -162,7 +158,7 @@
             <% end %>
           </div>
         <% else %>
-          <p class="empty-state">Nenhuma educacao cadastrada.</p>
+          <p class="empty-state">No education entries yet.</p>
         <% end %>
       </section>
     </main>
@@ -187,8 +183,8 @@
       <section class="sidebar-panel contact-panel">
         <div class="section-heading sidebar-heading">
           <div>
-            <p class="section-kicker">Conexões</p>
-            <h2 class="section-title">Contato</h2>
+            <p class="section-kicker">Contact</p>
+            <h2 class="section-title">Contact</h2>
           </div>
         </div>
 
@@ -211,7 +207,7 @@
       <section class="sidebar-panel">
         <div class="section-heading sidebar-heading">
           <div>
-            <p class="section-kicker">Capacidades</p>
+            <p class="section-kicker">Skills</p>
             <h2 class="section-title">Top skills</h2>
           </div>
         </div>
@@ -223,26 +219,26 @@
             <% end %>
           </ul>
         <% else %>
-          <p class="empty-state">Nenhuma top skill cadastrada.</p>
+          <p class="empty-state">No top skills added.</p>
         <% end %>
       </section>
 
       <section class="sidebar-panel">
         <div class="section-heading sidebar-heading">
           <div>
-            <p class="section-kicker">Formação Contínua</p>
-            <h2 class="section-title">Certificações</h2>
+            <p class="section-kicker">Credentials</p>
+            <h2 class="section-title">Certifications</h2>
           </div>
         </div>
 
         <% if payload[:certifications].any? %>
-          <ul class="certification-list" aria-label="Certificações">
+          <ul class="certification-list" aria-label="Certifications">
             <% payload[:certifications].each do |certification| %>
               <li class="certification-item"><%= certification[:name] %></li>
             <% end %>
           </ul>
         <% else %>
-          <p class="empty-state">Nenhuma certification cadastrada.</p>
+          <p class="empty-state">No certifications added.</p>
         <% end %>
       </section>
     </aside>
