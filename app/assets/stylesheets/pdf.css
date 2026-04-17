@@ -293,7 +293,6 @@
   }
 
   .company-list,
-  .education-list,
   .role-list,
   .certification-list {
     display: grid;
@@ -314,6 +313,7 @@
     background: #fff;
     padding-block: 5mm;
     padding-inline: 4.4mm;
+    margin-block-end: 10px;
   }
 
   .company-block::before {
@@ -352,6 +352,7 @@
 
   .role-block {
     padding-inline-start: 3mm;
+      margin-block-end: 10px;
   }
 
   .role-header {
@@ -405,6 +406,11 @@
     background: linear-gradient(180deg, #fff 0%, #fbfcfe 100%);
     padding-block: 4.8mm;
     padding-inline: 4.3mm;
+    margin-block-end: 10px;
+  }
+
+  .education-item:last-child {
+    margin-block-end: 0;
   }
 
   .education-degree {
@@ -418,6 +424,7 @@
     background: linear-gradient(180deg, var(--panel) 0%, #fff 100%);
     padding-block: 5.4mm;
     padding-inline: 4.3mm;
+      margin-block-end: 10px;
   }
 
   .profile-panel {
@@ -476,7 +483,6 @@
   .main-column > *,
   .sidebar-column > *,
   .company-list > *,
-  .education-list > *,
   .role-list > *,
   .skill-list > *,
   .certification-list > *,
@@ -487,7 +493,6 @@
   .main-column > *:last-child,
   .sidebar-column > *:last-child,
   .company-list > *:last-child,
-  .education-list > *:last-child,
   .role-list > *:last-child,
   .skill-list > *:last-child,
   .certification-list > *:last-child,
@@ -499,6 +504,7 @@
   .certification-item {
     border: 0.75pt solid var(--line);
     background: #fff;
+      margin-block-end: 10px;
   }
 
   .skill-pill {
@@ -578,6 +584,7 @@
     .section {
       break-inside: auto;
       page-break-inside: auto;
+        margin-block-end: 20px;
     }
 
     .section-heading {
@@ -586,7 +593,6 @@
     }
 
     .company-list,
-    .education-list,
     .role-list,
     .skill-list,
     .contact-list,
@@ -603,28 +609,6 @@
     .certification-item {
       break-inside: avoid;
       page-break-inside: avoid;
-    }
-
-    .company-list > *,
-    .education-list > *,
-    .role-list > *,
-    .main-column > *,
-    .sidebar-column > *,
-    .skill-list > *,
-    .certification-list > *,
-    .contact-list > * {
-      margin-bottom: 10px;
-    }
-
-    .company-list > *:last-child,
-    .education-list > *:last-child,
-    .role-list > *:last-child,
-    .main-column > *:last-child,
-    .sidebar-column > *:last-child,
-    .skill-list > *:last-child,
-    .certification-list > *:last-child,
-    .contact-list > *:last-child {
-      margin-bottom: 0;
     }
   }
 }

@@ -133,6 +133,9 @@ class ResumesControllerTest < ActionDispatch::IntegrationTest
     assert_includes captured_html, "Nenhuma experiencia cadastrada."
     assert_includes captured_html, "Nenhuma top skill cadastrada."
     refute_includes captured_html, 'style="margin-bottom: 10px;"'
+    assert_includes captured_html, ".education-item:last-child"
+    assert_includes captured_html, "margin-block-end: 10px;"
+    refute_includes captured_html, ".education-list > *"
 
     main_column_html = captured_html[/<main class="main-column">(.*?)<\/main>/m, 1]
     sidebar_html = captured_html[/<aside class="sidebar-column">(.*?)<\/aside>/m, 1]
