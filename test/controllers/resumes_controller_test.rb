@@ -132,8 +132,21 @@ class ResumesControllerTest < ActionDispatch::IntegrationTest
     assert_includes captured_html, "Empty Resume"
     assert_includes captured_html, "Nenhuma experiencia cadastrada."
     assert_includes captured_html, "Nenhuma top skill cadastrada."
-    assert_match(/<main class="main-column">.*Resumo profissional.*Experiência profissional.*Educação.*Top skills.*Certificações/m, captured_html)
-    assert_match(/<aside class="sidebar-column">\s*<section class="sidebar-panel contact-panel">.*Contato.*<\/section>\s*<section class="sidebar-panel profile-panel">/m, captured_html)
+    refute_includes captured_html, 'style="margin-bottom: 10px;"'
+
+    main_column_html = captured_html[/<main class="main-column">(.*?)<\/main>/m, 1]
+    sidebar_html = captured_html[/<aside class="sidebar-column">(.*?)<\/aside>/m, 1]
+
+    assert_includes main_column_html, "Resumo profissional"
+    assert_includes main_column_html, "Experiência profissional"
+    assert_includes main_column_html, "Educação"
+    refute_includes main_column_html, "Top skills"
+    refute_includes main_column_html, "Certificações"
+
+    assert_includes sidebar_html, "Contato"
+    assert_includes sidebar_html, "Top skills"
+    assert_includes sidebar_html, "Certificações"
+    assert_match(/profile-panel.*contact-panel.*Top skills.*Certificações/m, sidebar_html)
     refute_includes captured_html, "Soft Skills"
   end
 

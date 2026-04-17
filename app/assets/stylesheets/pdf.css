@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap");
 
 @page {
   size: A4 portrait;
@@ -80,7 +80,7 @@
   body {
     background: var(--canvas);
     color: var(--ink);
-    font-family: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font-family: "Fredoka", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
     font-size: 9.6pt;
     line-height: 1.42;
     font-synthesis: none;
@@ -127,7 +127,7 @@
 @layer components {
   .resume-hero {
     border-block-end: 0.75pt solid var(--line);
-    padding-block-end: 7mm;
+    padding-block-end: 8mm;
   }
 
   .eyebrow,
@@ -165,7 +165,7 @@
     flex-wrap: wrap;
     gap: 2.2mm;
     list-style: none;
-    margin-block-start: 4mm;
+    margin-block-start: 4.6mm;
   }
 
   .meta-chip {
@@ -179,7 +179,7 @@
   }
 
   .profile-frame {
-    aspect-ratio: 4 / 4.7;
+    aspect-ratio: 4 / 4.15;
     display: grid;
     place-items: center;
     overflow: hidden;
@@ -205,7 +205,7 @@
     display: grid;
     gap: 2mm;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    margin-block-start: 4mm;
+    margin-block-start: 4.8mm;
     max-inline-size: 92mm;
   }
 
@@ -238,7 +238,7 @@
   }
 
   .summary-section {
-    padding-block-start: 0;
+    padding-block-start: 1mm;
   }
 
   .section-heading {
@@ -246,7 +246,12 @@
     align-items: end;
     justify-content: space-between;
     gap: 4mm;
-    margin-block-end: 3mm;
+    margin-block-end: 4.8mm;
+  }
+
+  .section-heading > div {
+    display: grid;
+    gap: 1.5mm;
   }
 
   .section-title {
@@ -260,31 +265,30 @@
     background: linear-gradient(135deg, var(--panel) 0%, rgb(255 255 255 / 90%) 100%);
     color: var(--ink-muted);
     line-height: 1.5;
-    padding-block: 4mm;
-    padding-inline: 4.5mm;
+    padding-block: 5.2mm;
+    padding-inline: 4.8mm;
   }
 
   .resume-body {
     display: flex;
     align-items: flex-start;
-    gap: var(--gutter);
-    padding-block-start: 6mm;
+    gap: 9mm;
+    padding-block-start: 8mm;
   }
 
   .main-column {
     flex: 1 1 auto;
     min-inline-size: 0;
+    display: grid;
+    gap: 0;
+    align-content: start;
   }
 
   .sidebar-column {
     flex: 0 0 var(--sidebar-width);
     inline-size: var(--sidebar-width);
-  }
-
-  .main-column,
-  .sidebar-column {
     display: grid;
-    gap: 6mm;
+    gap: 0;
     align-content: start;
   }
 
@@ -293,7 +297,7 @@
   .role-list,
   .certification-list {
     display: grid;
-    gap: 3mm;
+    gap: 0;
   }
 
   .company-block,
@@ -308,7 +312,7 @@
     border: 0.75pt solid var(--line);
     border-radius: 5mm;
     background: #fff;
-    padding-block: 4.2mm;
+    padding-block: 5mm;
     padding-inline: 4.4mm;
   }
 
@@ -324,8 +328,8 @@
 
   .company-header {
     border-block-end: 0.75pt solid var(--line);
-    margin-block-end: 3mm;
-    padding-block-end: 2.6mm;
+    margin-block-end: 4.4mm;
+    padding-block-end: 3.4mm;
     padding-inline-start: 3mm;
   }
 
@@ -373,13 +377,13 @@
 
   .role-summary {
     font-size: 8.75pt;
-    margin-block-start: 1.2mm;
+    margin-block-start: 1.9mm;
   }
 
   .achievement-list {
     display: grid;
-    gap: 1.4mm;
-    margin-block-start: 2.1mm;
+    gap: 2.1mm;
+    margin-block-start: 3.2mm;
     padding-inline-start: 4.2mm;
   }
 
@@ -394,26 +398,26 @@
   .education-item {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    gap: 2mm 4mm;
+    gap: 3.2mm 4.4mm;
     align-items: start;
     border: 0.75pt solid var(--line);
     border-radius: 4mm;
     background: linear-gradient(180deg, #fff 0%, #fbfcfe 100%);
-    padding-block: 3.5mm;
-    padding-inline: 4mm;
+    padding-block: 4.8mm;
+    padding-inline: 4.3mm;
   }
 
   .education-degree {
     font-size: 8.75pt;
-    margin-block-start: 1mm;
+    margin-block-start: 1.8mm;
   }
 
   .sidebar-panel {
     border: 0.75pt solid var(--line);
     border-radius: 5mm;
     background: linear-gradient(180deg, var(--panel) 0%, #fff 100%);
-    padding-block: 4.2mm;
-    padding-inline: 4mm;
+    padding-block: 5.4mm;
+    padding-inline: 4.3mm;
   }
 
   .profile-panel {
@@ -422,18 +426,20 @@
   }
 
   .sidebar-heading {
-    margin-block-end: 3.2mm;
+    margin-block-end: 5.2mm;
   }
 
   .contact-list {
     display: grid;
-    gap: 2.6mm;
+    gap: 3.8mm;
   }
 
   .contact-row {
+    display: grid;
+    gap: 1.5mm;
     border-block-end: 0.75pt solid rgb(154 169 193 / 28%);
     margin: 0;
-    padding-block-end: 2.4mm;
+    padding-block-end: 3.4mm;
   }
 
   .contact-row:last-child {
@@ -442,7 +448,7 @@
   }
 
   .contact-label {
-    margin-block-end: 0.9mm;
+    margin: 0;
   }
 
   .contact-value {
@@ -463,9 +469,30 @@
   }
 
   .skill-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2mm;
+    display: grid;
+    gap: 0;
+  }
+
+  .main-column > *,
+  .sidebar-column > *,
+  .company-list > *,
+  .education-list > *,
+  .role-list > *,
+  .skill-list > *,
+  .certification-list > *,
+  .contact-list > * {
+    margin-bottom: 10px;
+  }
+
+  .main-column > *:last-child,
+  .sidebar-column > *:last-child,
+  .company-list > *:last-child,
+  .education-list > *:last-child,
+  .role-list > *:last-child,
+  .skill-list > *:last-child,
+  .certification-list > *:last-child,
+  .contact-list > *:last-child {
+    margin-bottom: 0;
   }
 
   .skill-pill,
@@ -475,17 +502,17 @@
   }
 
   .skill-pill {
-    border-radius: 999px;
+    border-radius: 3.4mm;
     font-size: 8.15pt;
     line-height: 1.25;
-    padding-block: 1.6mm;
-    padding-inline: 2.5mm;
+    padding-block: 2.5mm;
+    padding-inline: 2.8mm;
   }
 
   .certification-item {
     border-radius: 3.4mm;
-    padding-block: 2.5mm;
-    padding-inline: 2.8mm;
+    padding-block: 3.1mm;
+    padding-inline: 3mm;
     color: var(--ink-muted);
   }
 
@@ -533,7 +560,7 @@
     .resume-body {
       display: flex;
       align-items: flex-start;
-      gap: var(--gutter);
+      gap: 9mm;
     }
 
     .sidebar-column {
@@ -561,6 +588,7 @@
     .company-list,
     .education-list,
     .role-list,
+    .skill-list,
     .contact-list,
     .certification-list {
       display: block;
@@ -582,9 +610,10 @@
     .role-list > *,
     .main-column > *,
     .sidebar-column > *,
+    .skill-list > *,
     .certification-list > *,
     .contact-list > * {
-      margin-block-end: 3mm;
+      margin-bottom: 10px;
     }
 
     .company-list > *:last-child,
@@ -592,9 +621,10 @@
     .role-list > *:last-child,
     .main-column > *:last-child,
     .sidebar-column > *:last-child,
+    .skill-list > *:last-child,
     .certification-list > *:last-child,
     .contact-list > *:last-child {
-      margin-block-end: 0;
+      margin-bottom: 0;
     }
   }
 }
