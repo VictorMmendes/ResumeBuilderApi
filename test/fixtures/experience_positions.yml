@@ -1,0 +1,28 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+lead_pm:
+  experience_group: remote_labs
+  title: Lead Product Manager
+  start_date: 2022-08-01
+  end_date:
+  current: true
+  summary: Leading platform strategy across multiple squads.
+  display_order: 0
+
+senior_pm:
+  experience_group: remote_labs
+  title: Senior Product Manager
+  start_date: 2020-01-01
+  end_date: 2022-07-01
+  current: false
+  summary: Built the first operations roadmap.
+  display_order: 1
+
+advisory_pm:
+  experience_group: product_studio
+  title: Product Advisor
+  start_date: 2019-03-01
+  end_date: 2019-12-01
+  current: false
+  summary: Supported early product discovery.
+  display_order: 0

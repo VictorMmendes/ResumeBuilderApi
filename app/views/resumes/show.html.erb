@@ -1,299 +1,250 @@
-<% resume ||= @resume %>
-<div class="row">
-  <main class="col-9 pr-0">
-    <header class="header">
-      <div class="container">
-        <div class="row">
-          <div class="col-3 d-flex justify-content-end">
-            <img
-              src="<%= ApplicationHelper.embed_attachment(resume.avatar) %>"
-              alt="<%= resume.full_name %>"
-              class="avatar"
-              width="75"
-              height="75"
-            >
+<% resume ||= local_assigns[:resume] || @resume %>
+<% payload ||= local_assigns[:payload] || ResumePayloadBuilder.new(resume).call %>
+<%
+  require "uri"
+
+  contact = payload[:contact] || {}
+  hero_location = contact[:street_address].presence || [ contact[:city], contact[:region], contact[:country] ].reject(&:blank?).join(", ")
+  base_location = if contact[:street_address].present?
+    [ contact[:street_address], contact[:country] ].reject(&:blank?).uniq.join(", ")
+  else
+    [ contact[:city], contact[:region], contact[:country] ].reject(&:blank?).uniq.join(", ")
+  end
+  format_month_year = ->(date) { date&.strftime("%m/%Y") }
+  format_period = lambda do |start_date, end_date, current|
+    start_label = format_month_year.call(start_date)
+    end_label = current ? "Atual" : format_month_year.call(end_date)
+    [start_label, end_label].reject(&:blank?).join(" - ")
+  end
+  sanitize_link_label = lambda do |url|
+    next if url.blank?
+
+    parsed = URI.parse(url)
+    [ parsed.host&.sub(/\Awww\./, ""), parsed.path.presence ].compact.join
+  rescue URI::InvalidURIError
+    url
+  end
+  profile_initials = payload[:full_name].to_s.split.filter_map { |part| part[0] }.first(2).join.upcase
+  contact_entries = [
+    [ "Base", base_location, nil ],
+    [ "Telefone", contact[:phone], "tel:#{contact[:phone]}" ],
+    [ "Email", contact[:email], "mailto:#{contact[:email]}" ],
+    [ "LinkedIn", sanitize_link_label.call(contact[:linkedin_url]), contact[:linkedin_url] ],
+    [ "GitHub", sanitize_link_label.call(contact[:github_url]), contact[:github_url] ],
+    [ "Portfólio", contact[:portfolio_label], nil ]
+  ].select { |_, value, _| value.present? }
+  facts = [
+    [ payload[:experience_groups].sum { |group| group[:positions].size }, "Posições" ],
+    [ payload[:top_skills].size, "Skills" ],
+    [ payload[:certifications].size, "Certs" ]
+  ]
+%>
+
+<article class="resume-page">
+  <header class="resume-hero">
+    <div class="identity-block">
+      <p class="eyebrow">Curriculum Vitae</p>
+      <h1 class="resume-name"><%= payload[:full_name] %></h1>
+
+      <% if payload[:headline].present? %>
+        <p class="resume-headline"><%= payload[:headline] %></p>
+      <% end %>
+
+      <ul class="meta-list" aria-label="Resumo rápido do perfil">
+        <% if hero_location.present? %>
+          <li class="meta-chip"><%= hero_location %></li>
+        <% end %>
+        <% if contact[:email].present? %>
+          <li class="meta-chip"><%= contact[:email] %></li>
+        <% end %>
+        <% if contact[:phone].present? %>
+          <li class="meta-chip"><%= contact[:phone] %></li>
+        <% end %>
+      </ul>
+      
+      <dl class="facts-list">
+        <% facts.each do |value, label| %>
+          <div class="fact-item">
+            <dt class="fact-value"><%= value %></dt>
+            <dd class="fact-label"><%= label %></dd>
           </div>
-          <div class="col-9 d-flex flex-column gap-0 pt-2">
-            <h1 class="accent title"><%= resume.full_name %></h1>
-            <h5 class="title"><%= resume.job_title %></h5>
-          </div>
+        <% end %>
+      </dl>
+    </div>
+  </header>
+
+  <% if payload[:summary].present? %>
+    <section class="section summary-section">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">Visão Geral</p>
+          <h2 class="section-title">Resumo profissional</h2>
         </div>
       </div>
-    </header>
-    <section class="main-section">
-      <div class="container">
-        <div class="row">
-          <div class="col-3 d-flex justify-content-end position-relative">
-            <div class="section-icon-dot">
-              <img src="<%= ApplicationHelper.embed_image('alvo.png') %>" alt="">
-            </div>
-          </div>
-          <div class="col-9 thread-effect">
-            <div class="experience-item">
-              <h4 class="accent title">Perfil Profissional</h4>
-              <div class="row">
-                <div class="col-auto pt-2 px-0">
-                  <div class="experience-dot">
-                  </div>
-                </div>
-                <div class="col">
-                  <h6>
-                    <%= resume.summary %>
-                  </h6>
-                </div>
-              </div>
-            </div>
+      <p class="summary-text"><%= payload[:summary] %></p>
+    </section>
+  <% end %>
+
+  <div class="resume-body">
+    <main class="main-column">
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Trajetória</p>
+            <h2 class="section-title">Experiência profissional</h2>
           </div>
         </div>
-        <div class="row">
-          <div class="col-3 d-flex justify-content-end">
-            <div class="section-icon-dot">
-              <img src="<%= ApplicationHelper.embed_image('mala-de-viagem.png') %>" alt="">
-            </div>
-          </div>
-          <div class="col-9 thread-effect">
-            <div class="experience-item">
-              <h4 class="accent title">Experiência Profissional</h4>
-              <% resume.experiences.order(start_date: :desc).each do |experience| %>
-                <div class="row pb-2 position-relative">
-                  <h5 class="date-working">
-                    <%= experience.start_date.strftime("%m/%Y") %> -<br>
-                    <%= experience.current ? 'Atual' : experience.end_date&.strftime("%m/%Y") %>
-                  </h5>
-                  <div class="col-auto pt-2 px-0">
-                    <div class="experience-dot">
-                    </div>
-                  </div>
-                  <div class="col">
-                    <h5 class="title">
-                      <%= experience.job_title %>
-                    </h5>
-                    <h6>
-                      <%= experience.company %><%= ", #{experience.location}" if experience.location.present? %>
-                    </h6>
-                    <ul>
-                      <% experience.description.split("\n").each do |item| %>
-                        <li><%= item %></li>
-                      <% end %>
-                    </ul>
-                  </div>
-                </div>
-              <% end %>
-              <% if resume.old_experiences_summary.present? %>
-                <div class="row">
-                  <div class="col-12 ps-4 mt-1">
-                    <h6 class="small">
-                      <%= resume.old_experiences_summary %>
-                    </h6>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-3 d-flex justify-content-end">
-            <div class="section-icon-dot">
-              <img src="<%= ApplicationHelper.embed_image('educacao.png') %>" alt="">
-            </div>
-          </div>
-          <div class="col-9 thread-effect">
-            <div class="experience-item">
-              <h4 class="accent title">Educação</h4>
-              <% resume.educations.order(start_date: :desc).each do |education| %>
-                <div class="row pb-2 position-relative">
-                  <h5 class="date-working">
-                    <%= education.start_date.strftime("%m/%Y") %> -<br>
-                    <%= education.current ? 'Atual' : education.end_date&.strftime("%m/%Y") %>
-                  </h5>
-                  <div class="col-auto pt-2 px-0">
-                    <div class="experience-dot">
-                    </div>
-                  </div>
-                  <div class="col">
-                    <h5 class="title">
-                      <%= education.degree %>
-                    </h5>
-                    <h6>
-                      <%= education.institution %>
-                    </h6>
-                    <% if education.location.present? %>
-                      <h6>
-                        <%= education.location %>
-                      </h6>
+
+        <% if payload[:experience_groups].any? %>
+          <div class="company-list">
+            <% payload[:experience_groups].each do |group| %>
+              <article class="company-block">
+                <header class="company-header">
+                  <div>
+                    <h3 class="company-name"><%= group[:company_name] %></h3>
+                    <% if group[:location].present? %>
+                      <p class="company-location"><%= group[:location] %></p>
                     <% end %>
                   </div>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        </div>
-        <!-- Competências Técnicas -->
-        <div class="row">
-          <div class="col-3 d-flex justify-content-end">
-            <div class="section-icon-dot">
-              <img src="<%= ApplicationHelper.embed_image('cerebro.png') %>" alt="">
-            </div>
-          </div>
-          <div class="col-9 thread-effect">
-            <div class="experience-item">
-              <h4 class="accent title">Competências Técnicas</h4>
-              <div class="row ps-2">
-                <div class="col-12">
-                  <% resume.technical_skills.each do |ts| %>
-                    <h6 class="mb-1"><strong><%= ts.category %>:</strong> <%= ts.name %></h6>
+                </header>
+
+                <div class="role-list">
+                  <% group[:positions].each do |position| %>
+                    <section class="role-block">
+                      <div class="role-header">
+                        <div>
+                          <h4 class="role-title"><%= position[:title] %></h4>
+                          <% if position[:summary].present? %>
+                            <p class="role-summary"><%= position[:summary] %></p>
+                          <% end %>
+                        </div>
+                        <p class="date-range"><%= format_period.call(position[:start_date], position[:end_date], position[:current]) %></p>
+                      </div>
+
+                      <% if position[:bullets].any? %>
+                        <ul class="achievement-list">
+                          <% position[:bullets].each do |bullet| %>
+                            <li><%= bullet[:content] %></li>
+                          <% end %>
+                        </ul>
+                      <% end %>
+                    </section>
                   <% end %>
                 </div>
-              </div>
-            </div>
+              </article>
+            <% end %>
           </div>
-        </div>
-        <!-- Projetos em Destaque -->
-        <div class="row">
-          <div class="col-3 d-flex justify-content-end">
-            <div class="section-icon-dot">
-              <img src="<%= ApplicationHelper.embed_image('projetos.png') %>" alt="">
-            </div>
-          </div>
-          <div class="col-9 thread-effect">
-            <div class="experience-item">
-              <h4 class="accent title">Projetos em Destaque</h4>
-              <div class="row ps-2">
-                <% resume.projects.each do |project| %>
-                  <div class="col-12 mb-2">
-                    <h5 class="title"><%= project.title %></h5>
-                    <h6><%= project.description %></h6>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-  <!-- Preenchimento lateral -->
-  <aside class="col-3 pl-0">
-    <div class="sidebar-section">
-      <div class="d-flex align-items-center gap-2 mb-2">
-        <div class="sidebar-icon-dot">
-          <img src="<%= ApplicationHelper.embed_image('contato.png') %>" alt="">
-        </div>
-        <h3 class="accent title pt-2">Contato</h3>
-      </div>
-      <div class="contact-list ps-4">
-        <div class="contact-item mb-2">
-          <h6 class="title mb-0">Endereço</h6>
-          <span class="small"><%= resume.address %></span>
-        </div>
-        <div class="contact-item mb-2">
-          <h6 class="title mb-0">Telefone</h6>
-          <span class="small"><%= resume.phone %></span>
-        </div>
-        <div class="contact-item mb-2">
-          <h6 class="title mb-0">E-mail</h6>
-          <span class="small">
-            <a href="mailto:<%= resume.email %>?subject=Nosso novo Senior" class="text-decoration-none"><%= resume.email %></a>
-          </span>
-        </div>
-        <div class="contact-item mb-2">
-          <h6 class="title mb-0">LinkedIn</h6>
-          <span class="small text-break">
-            <a href="<%= resume.linkedin_url %>" target="_blank" class="text-decoration-none"><%= resume.linkedin_url.gsub("https://www.", "") %></a>
-          </span>
-        </div>
-        <div class="contact-item mb-2">
-          <h6 class="title mb-0">GitHub</h6>
-          <span class="small text-break">
-            <a href="<%= resume.github_url %>" target="_blank" class="text-decoration-none"><%= resume.github_url.gsub("https://", "") %></a>
-          </span>
-        </div>
-      </div>
-    </div>
-
-    <div class="sidebar-section mt-4">
-      <div class="d-flex align-items-center gap-2 mb-2">
-        <div class="sidebar-icon-dot">
-          <img src="<%= ApplicationHelper.embed_image('habilidades.png') %>" alt="">
-        </div>
-        <h3 class="accent title pt-2">Soft Skills</h3>
-      </div>
-      <div class="skills-list ps-4">
-        <% resume.skills.each do |skill| %>
-          <div class="skill-item mb-2 d-flex flex-column align-items-end">
-            <div class="small w-100 text-start"><%= skill.name %></div>
-            <div class="skill-dots d-flex gap-1">
-              <% 5.times do |i| %>
-                <div class="skill-dot <%= i < skill.level ? 'filled' : '' %>"></div>
-              <% end %>
-            </div>
-          </div>
+        <% else %>
+          <p class="empty-state">Nenhuma experiencia cadastrada.</p>
         <% end %>
-      </div>
-    </div>
+      </section>
 
-    <div class="sidebar-section mt-4">
-      <div class="d-flex align-items-center gap-2 mb-2">
-        <div class="sidebar-icon-dot">
-          <img src="<%= ApplicationHelper.embed_image('software.png') %>" alt="">
-        </div>
-        <h3 class="accent title pt-2">Software</h3>
-      </div>
-      <div class="skills-list ps-4">
-        <% resume.softwares.each do |software| %>
-          <div class="skill-item mb-2 d-flex flex-column align-items-end">
-            <div class="small w-100 text-start"><%= software.name %></div>
-            <div class="skill-dots d-flex gap-1">
-              <% 5.times do |i| %>
-                <div class="skill-dot <%= i < software.level ? 'filled' : '' %>"></div>
-              <% end %>
-            </div>
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Formação</p>
+            <h2 class="section-title">Educação</h2>
           </div>
-        <% end %>
-      </div>
-    </div>
-
-    <div class="sidebar-section mt-4">
-      <div class="d-flex align-items-center gap-2 mb-2">
-        <div class="sidebar-icon-dot">
-          <img src="<%= ApplicationHelper.embed_image('idiomas.png') %>" alt="">
         </div>
-        <h3 class="accent title pt-2">Idiomas</h3>
-      </div>
-      <div class="skills-list ps-4">
-        <div class="mb-3">
-          <% resume.languages.each do |language| %>
-            <div class="skill-item mb-1 d-flex flex-column align-items-end">
-              <div class="small w-100 text-start"><%= language.name %></div>
-              <div class="skill-dots d-flex gap-1">
-                <% 5.times do |i| %>
-                  <div class="skill-dot <%= i < language.level ? 'filled' : '' %>"></div>
-                <% end %>
-              </div>
-            </div>
+
+        <% if payload[:educations].any? %>
+          <div class="education-list">
+            <% payload[:educations].each do |education| %>
+              <article class="education-item">
+                <div>
+                  <h3 class="education-school"><%= education[:institution] %></h3>
+                  <% if education[:degree_name].present? || education[:field_of_study].present? %>
+                    <p class="education-degree"><%= [ education[:degree_name], education[:field_of_study] ].reject(&:blank?).join(" · ") %></p>
+                  <% end %>
+                </div>
+                <p class="date-range"><%= format_period.call(education[:start_date], education[:end_date], education[:current]) %></p>
+              </article>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="empty-state">Nenhuma educacao cadastrada.</p>
+        <% end %>
+      </section>
+    </main>
+
+    <aside class="sidebar-column">
+      <section class="sidebar-panel profile-panel">
+        <div class="profile-frame">
+          <% if resume&.avatar&.attached? %>
+            <img
+              src="<%= ApplicationHelper.embed_attachment(resume.avatar) %>"
+              alt="<%= payload[:full_name] %>"
+              class="avatar"
+              width="220"
+              height="275"
+            >
+          <% else %>
+            <span class="profile-placeholder"><%= profile_initials %></span>
           <% end %>
         </div>
-      </div>
-    </div>
-    <div class="sidebar-section mt-4">
-      <div class="d-flex align-items-center gap-2 mb-2">
-        <div class="sidebar-icon-dot">
-          <img src="<%= ApplicationHelper.embed_image('hobbies.png') %>" alt="">
+      </section>
+
+      <section class="sidebar-panel">
+        <div class="section-heading sidebar-heading">
+          <div>
+            <p class="section-kicker">Conexões</p>
+            <h2 class="section-title">Contato</h2>
+          </div>
         </div>
-        <h3 class="accent title pt-2">Hobbies</h3>
-      </div>
-      <div class="skills-list ps-4">
-        <div class="mb-3">
-          <% resume.hobbies.group_by(&:category).each do |category, hobbies| %>
-            <div>
-              <h6 class="title <%= 'mt-3' unless category == resume.hobbies.first&.category %> mb-1 small"><%= category %></h6>
-              <% hobbies.each do |hobby| %>
-                <div class="small"><%= hobby.name %></div>
-              <% end %>
+
+        <dl class="contact-list">
+          <% contact_entries.each do |label, value, href| %>
+            <div class="contact-row">
+              <dt class="contact-label"><%= label %></dt>
+              <dd class="contact-value">
+                <% if href.present? %>
+                  <%= link_to value, href, class: "resource-link", target: "_blank", rel: "noreferrer noopener" %>
+                <% else %>
+                  <span><%= value %></span>
+                <% end %>
+              </dd>
             </div>
           <% end %>
+        </dl>
+      </section>
+
+      <section class="sidebar-panel">
+        <div class="section-heading sidebar-heading">
+          <div>
+            <p class="section-kicker">Capacidades</p>
+            <h2 class="section-title">Top skills</h2>
+          </div>
         </div>
-      </div>
-    </div>
-  </aside>
-</div>
+
+        <% if payload[:top_skills].any? %>
+          <ul class="skill-list" aria-label="Top skills">
+            <% payload[:top_skills].each do |top_skill| %>
+              <li class="skill-pill"><%= top_skill[:name] %></li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="empty-state">Nenhuma top skill cadastrada.</p>
+        <% end %>
+      </section>
+
+      <section class="sidebar-panel">
+        <div class="section-heading sidebar-heading">
+          <div>
+            <p class="section-kicker">Formação Contínua</p>
+            <h2 class="section-title">Certificações</h2>
+          </div>
+        </div>
+
+        <% if payload[:certifications].any? %>
+          <ul class="certification-list" aria-label="Certificações">
+            <% payload[:certifications].each do |certification| %>
+              <li class="certification-item"><%= certification[:name] %></li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="empty-state">Nenhuma certification cadastrada.</p>
+        <% end %>
+      </section>
+    </aside>
+  </div>
+</article>

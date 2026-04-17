@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_20_211943) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_11_000009) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -42,103 +42,93 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_20_211943) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "certifications", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "display_order", null: false
+    t.string "name", null: false
+    t.bigint "resume_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["resume_id", "display_order"], name: "index_certifications_on_resume_id_and_display_order", unique: true
+    t.index ["resume_id"], name: "index_certifications_on_resume_id"
+  end
+
   create_table "educations", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.boolean "current"
-    t.string "degree"
+    t.string "degree_name"
+    t.integer "display_order", null: false
     t.date "end_date"
+    t.string "field_of_study"
     t.string "institution"
-    t.string "location"
     t.bigint "resume_id", null: false
     t.date "start_date"
     t.datetime "updated_at", null: false
+    t.index ["resume_id", "display_order"], name: "index_educations_on_resume_id_and_display_order", unique: true
     t.index ["resume_id"], name: "index_educations_on_resume_id"
   end
 
-  create_table "experiences", force: :cascade do |t|
-    t.string "company"
+  create_table "experience_groups", force: :cascade do |t|
+    t.string "company_name", null: false
     t.datetime "created_at", null: false
-    t.boolean "current"
-    t.text "description"
-    t.date "end_date"
-    t.string "job_title"
+    t.integer "display_order", null: false
     t.string "location"
     t.bigint "resume_id", null: false
-    t.date "start_date"
     t.datetime "updated_at", null: false
-    t.index ["resume_id"], name: "index_experiences_on_resume_id"
+    t.index ["resume_id", "display_order"], name: "index_experience_groups_on_resume_id_and_display_order", unique: true
+    t.index ["resume_id"], name: "index_experience_groups_on_resume_id"
   end
 
-  create_table "hobbies", force: :cascade do |t|
-    t.string "category"
+  create_table "experience_position_bullets", force: :cascade do |t|
+    t.text "content", null: false
     t.datetime "created_at", null: false
-    t.string "name"
-    t.bigint "resume_id", null: false
+    t.integer "display_order", null: false
+    t.bigint "experience_position_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["resume_id"], name: "index_hobbies_on_resume_id"
+    t.index ["experience_position_id", "display_order"], name: "idx_on_experience_position_id_display_order_0db9d92c7e", unique: true
+    t.index ["experience_position_id"], name: "index_experience_position_bullets_on_experience_position_id"
   end
 
-  create_table "languages", force: :cascade do |t|
+  create_table "experience_positions", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer "level"
-    t.string "name"
-    t.bigint "resume_id", null: false
+    t.boolean "current", default: false, null: false
+    t.integer "display_order", null: false
+    t.date "end_date"
+    t.bigint "experience_group_id", null: false
+    t.date "start_date", null: false
+    t.text "summary"
+    t.string "title", null: false
     t.datetime "updated_at", null: false
-    t.index ["resume_id"], name: "index_languages_on_resume_id"
-  end
-
-  create_table "projects", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.text "description"
-    t.bigint "resume_id", null: false
-    t.string "title"
-    t.datetime "updated_at", null: false
-    t.index ["resume_id"], name: "index_projects_on_resume_id"
+    t.index ["experience_group_id", "display_order"], name: "idx_on_experience_group_id_display_order_21c313e501", unique: true
+    t.index ["experience_group_id"], name: "index_experience_positions_on_experience_group_id"
   end
 
   create_table "resumes", force: :cascade do |t|
-    t.string "address"
+    t.string "city"
+    t.string "country"
     t.datetime "created_at", null: false
     t.string "email"
     t.string "full_name"
     t.string "github_url"
-    t.string "job_title"
+    t.string "headline"
     t.string "linkedin_url"
-    t.string "old_experiences_summary"
     t.string "phone"
+    t.string "portfolio_label"
+    t.string "region"
+    t.string "street_address"
     t.text "summary"
-    t.string "title"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
-    t.string "website_url"
     t.index ["user_id"], name: "index_resumes_on_user_id"
   end
 
-  create_table "skills", force: :cascade do |t|
+  create_table "top_skills", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer "level"
-    t.string "name"
+    t.integer "display_order", null: false
+    t.string "name", null: false
     t.bigint "resume_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["resume_id"], name: "index_skills_on_resume_id"
-  end
-
-  create_table "softwares", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "level"
-    t.string "name"
-    t.bigint "resume_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["resume_id"], name: "index_softwares_on_resume_id"
-  end
-
-  create_table "technical_skills", force: :cascade do |t|
-    t.string "category"
-    t.datetime "created_at", null: false
-    t.string "name"
-    t.bigint "resume_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["resume_id"], name: "index_technical_skills_on_resume_id"
+    t.index ["resume_id", "display_order"], name: "index_top_skills_on_resume_id_and_display_order", unique: true
+    t.index ["resume_id"], name: "index_top_skills_on_resume_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -150,13 +140,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_20_211943) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "certifications", "resumes"
   add_foreign_key "educations", "resumes"
-  add_foreign_key "experiences", "resumes"
-  add_foreign_key "hobbies", "resumes"
-  add_foreign_key "languages", "resumes"
-  add_foreign_key "projects", "resumes"
+  add_foreign_key "experience_groups", "resumes"
+  add_foreign_key "experience_position_bullets", "experience_positions"
+  add_foreign_key "experience_positions", "experience_groups"
   add_foreign_key "resumes", "users"
-  add_foreign_key "skills", "resumes"
-  add_foreign_key "softwares", "resumes"
-  add_foreign_key "technical_skills", "resumes"
+  add_foreign_key "top_skills", "resumes"
 end

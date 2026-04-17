@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+remote_labs:
+  resume: two
+  company_name: Remote Labs
+  location: Remote
+  display_order: 0
+
+product_studio:
+  resume: two
+  company_name: Product Studio
+  location: Sao Paulo, Brazil
+  display_order: 1

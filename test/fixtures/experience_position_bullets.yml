@@ -1,0 +1,16 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+lead_pm_second:
+  experience_position: lead_pm
+  content: Launched roadmap planning for three squads
+  display_order: 1
+
+lead_pm_first:
+  experience_position: lead_pm
+  content: Scaled cross-functional delivery rituals
+  display_order: 0
+
+senior_pm_first:
+  experience_position: senior_pm
+  content: Reduced release coordination overhead
+  display_order: 0

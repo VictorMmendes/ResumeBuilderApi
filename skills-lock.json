@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "skills": {
+    "effective-print-design": {
+      "source": "sebastian-software/effective-print-design",
+      "sourceType": "github",
+      "computedHash": "a845b22797e50313dc85cb700e2e89fe72c300174f46faa767d2961f1a10c566"
+    },
+    "modern-css": {
+      "source": "caidanw/skills",
+      "sourceType": "github",
+      "computedHash": "c392d7cc40521a352e81b729472aa44b5de4fbd694a9d4f9858f56bbc8ad80bd"
+    },
+    "resume-a4-generator": {
+      "source": "winsonwq/a4-resume",
+      "sourceType": "github",
+      "computedHash": "7306da28f45f2f24e4961765502028cd9139fbd7c0ebaedfa80afc7a2317b24e"
+    },
+    "web-coder": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "computedHash": "f26b2845e3b1ccd59ff2158c45fe2872038e27237757e063d3811a1244757074"
+    }
+  }
+}

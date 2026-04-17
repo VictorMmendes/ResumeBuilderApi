@@ -1,0 +1,33 @@
+<!-- Education Item Template -->
+<div class="edu-item">
+    <span class="edu-date">{{DATE_RANGE}}</span>
+    <span class="edu-school">{{SCHOOL_NAME}}</span>
+    <span class="edu-degree">{{DEGREE}}</span>
+    <span class="edu-major">{{MAJOR}}</span>
+</div>
+
+<!-- Work Experience Item Template -->
+<div class="job-item">
+    <div class="job-header">
+        <div class="job-company" style="font-size: 15px;">{{COMPANY_NAME}} <span style="margin:0 10px; font-weight:400; color:#ccc;">|</span> {{ROLE_TITLE}}</div>
+        <div class="job-date">{{DATE_RANGE}}</div>
+    </div>
+    <div class="job-content">
+        <div class="job-point">
+            <span class="job-point-title">{{POINT_TITLE}}：</span>
+            {{POINT_DESCRIPTION}}
+        </div>
+        <!-- Repeat .job-point for more bullet points -->
+    </div>
+</div>
+
+<!-- Skill Item Template -->
+<div class="skill-item">
+    <span class="skill-cat">{{SKILL_CATEGORY}}</span>
+    <span class="skill-list">{{SKILL_DETAILS_SEMICOLON_SEPARATED}}</span>
+</div>
+
+<!-- Honor/Sharing Item Template -->
+<div class="job-point">
+    <strong>{{EVENT_DATE_OR_TITLE}}：</strong> {{EVENT_DESCRIPTION}}
+</div>

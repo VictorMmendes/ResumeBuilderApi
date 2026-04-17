@@ -1,0 +1,16 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+product_management:
+  resume: two
+  name: Product Management
+  display_order: 0
+
+stakeholder_communication:
+  resume: two
+  name: Stakeholder Communication
+  display_order: 1
+
+product_strategy:
+  resume: two
+  name: Product Strategy
+  display_order: 2

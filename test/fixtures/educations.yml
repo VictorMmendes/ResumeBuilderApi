@@ -2,18 +2,30 @@
 
 one:
   resume: one
-  institution: MyString
-  degree: MyString
-  location: MyString
-  start_date: 2025-11-22
-  end_date: 2025-11-22
+  institution: Federal University
+  degree_name: Bachelor of Science
+  field_of_study: Computer Science
+  start_date: 2018-02-01
+  end_date: 2022-12-01
   current: false
+  display_order: 0
 
 two:
   resume: two
-  institution: MyString
-  degree: MyString
-  location: MyString
-  start_date: 2025-11-22
-  end_date: 2025-11-22
+  institution: Product School
+  degree_name: MBA
+  field_of_study: Product Management
+  start_date: 2019-02-01
+  end_date: 2020-12-01
   current: false
+  display_order: 1
+
+three:
+  resume: two
+  institution: Executive Program
+  degree_name: Extension
+  field_of_study: Leadership
+  start_date: 2018-01-01
+  end_date: 2018-12-01
+  current: false
+  display_order: 0

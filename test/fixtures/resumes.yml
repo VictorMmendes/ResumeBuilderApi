@@ -2,24 +2,30 @@
 
 one:
   user: one
-  title: MyString
-  full_name: MyString
-  job_title: MyString
-  summary: MyText
-  email: MyString
-  phone: MyString
-  address: MyString
-  linkedin_url: MyString
-  website_url: MyString
+  full_name: Victor Mendes Martins
+  headline: Staff Software Engineer
+  summary: Building resilient Rails and product systems.
+  email: victor@example.com
+  phone: "+55 41 99999-0000"
+  street_address: Rua das Flores, 123
+  city: Paranagua
+  region: Parana
+  country: Brazil
+  linkedin_url: https://www.linkedin.com/in/victormendes
+  github_url: https://github.com/victormendes
+  portfolio_label: Portfolio
 
 two:
   user: two
-  title: MyString
-  full_name: MyString
-  job_title: MyString
-  summary: MyText
-  email: MyString
-  phone: MyString
-  address: MyString
-  linkedin_url: MyString
-  website_url: MyString
+  full_name: Ana Silva
+  headline: Product Engineer
+  summary: Shipping product increments with strong UX.
+  email: ana@example.com
+  phone: "+55 11 98888-7777"
+  street_address: Avenida Brasil, 456
+  city: Sao Paulo
+  region: Sao Paulo
+  country: Brazil
+  linkedin_url: https://www.linkedin.com/in/anasilva
+  github_url: https://github.com/anasilva
+  portfolio_label: Website

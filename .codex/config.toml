@@ -1,0 +1,13 @@
+# Project-local Context7 MCP configuration.
+# Complete authentication once from this repository with:
+# codex mcp login context7
+
+[mcp_servers.context7]
+url = "https://mcp.context7.com/mcp/oauth"
+
+# Project-local Stitch MCP configuration.
+# Create an API key in Stitch > profile menu > Stitch Settings > API Keys.
+# Then export STITCH_API_KEY before starting Codex from this repository.
+[mcp_servers.stitch]
+url = "https://stitch.googleapis.com/mcp"
+env_http_headers = { "X-Goog-Api-Key" = "STITCH_API_KEY" }

@@ -1,11 +1,10 @@
 class EducationsController < ApplicationController
+  before_action :set_resume, only: %i[ index create ]
   before_action :set_education, only: %i[ show update destroy ]
 
-  # GET /educations
+  # GET /resumes/:resume_id/educations
   def index
-    @educations = Education.all
-
-    render json: @educations
+    render json: @resume.educations
   end
 
   # GET /educations/1
@@ -13,9 +12,9 @@ class EducationsController < ApplicationController
     render json: @education
   end
 
-  # POST /educations
+  # POST /resumes/:resume_id/educations
   def create
-    @education = Education.new(education_params)
+    @education = @resume.educations.new(education_params)
 
     if @education.save
       render json: @education, status: :created, location: @education
@@ -39,13 +38,15 @@ class EducationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_education
-      @education = Education.find(params.expect(:id))
-    end
+  def set_resume
+    @resume = Resume.find(params.expect(:resume_id))
+  end
 
-    # Only allow a list of trusted parameters through.
-    def education_params
-      params.expect(education: [ :resume_id, :institution, :degree, :location, :start_date, :end_date, :current ])
-    end
+  def set_education
+    @education = Education.find(params.expect(:id))
+  end
+
+  def education_params
+    params.expect(education: [ :institution, :degree_name, :field_of_study, :start_date, :end_date, :current, :display_order ])
+  end
 end

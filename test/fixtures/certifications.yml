@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+pspo:
+  resume: two
+  name: PSPO I
+  display_order: 0
+
+pmc:
+  resume: two
+  name: PMC Level II
+  display_order: 1

@@ -3,33 +3,22 @@ class ResumesController < ApplicationController
 
   # GET /resumes
   def index
-    if params[:email].present?
-      @resumes = Resume.joins(:user).where(users: { email: params[:email] })
-    else
-      @resumes = Resume.all
-    end
+    resumes = Resume.with_attached_avatar
+    resumes = resumes.joins(:user).where(users: { email: params[:email] }) if params[:email].present?
 
-    render json: @resumes
+    render json: resumes.map { |resume| resume_resource_payload(resume) }
   end
 
   # GET /resumes/1
   def show
-    render json: @resume, include: [
-      :experiences,
-      :educations,
-      :skills,
-      :languages,
-      :softwares,
-      :technical_skills,
-      :projects,
-      :hobbies
-    ], methods: [ :avatar_url ]
+    render json: resume_payload(@resume)
   end
 
   # GET /resumes/1/export
   def export
     pdf = PdfGeneratorService.new("resumes/show", {
-      resume: @resume
+      resume: @resume,
+      payload: resume_payload(@resume)
     }).call
     send_data pdf, type: "application/pdf", disposition: "inline", filename: "#{@resume.full_name.parameterize}_resume.pdf"
   end
@@ -49,7 +38,7 @@ class ResumesController < ApplicationController
     @resume = Resume.new(resume_params)
 
     if @resume.save
-      render json: @resume, status: :created, location: @resume
+      render json: resume_resource_payload(@resume), status: :created, location: @resume
     else
       render json: @resume.errors, status: :unprocessable_content
     end
@@ -58,7 +47,7 @@ class ResumesController < ApplicationController
   # PATCH/PUT /resumes/1
   def update
     if @resume.update(resume_params)
-      render json: @resume
+      render json: resume_resource_payload(@resume)
     else
       render json: @resume.errors, status: :unprocessable_content
     end
@@ -73,11 +62,39 @@ class ResumesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_resume
-    @resume = Resume.find(params.expect(:id))
+    @resume = Resume.with_attached_avatar.includes(
+      :educations,
+      :top_skills,
+      :certifications,
+      experience_groups: { experience_positions: :experience_position_bullets }
+    ).find(params.expect(:id))
   end
 
   # Only allow a list of trusted parameters through.
   def resume_params
-    params.expect(resume: [ :user_id, :title, :full_name, :job_title, :summary, :email, :phone, :address, :linkedin_url, :website_url, :github_url, :old_experiences_summary, :avatar ])
+    params.expect(resume: [ :user_id, :full_name, :headline, :summary, :email, :phone, :street_address, :city, :region, :country, :linkedin_url, :github_url, :portfolio_label, :avatar ])
+  end
+
+  def resume_payload(resume)
+    ResumePayloadBuilder.new(resume).call
+  end
+
+  def resume_resource_payload(resume)
+    resume.attributes.slice(
+      "id",
+      "user_id",
+      "full_name",
+      "headline",
+      "summary",
+      "email",
+      "phone",
+      "street_address",
+      "city",
+      "region",
+      "country",
+      "linkedin_url",
+      "github_url",
+      "portfolio_label"
+    ).merge("avatar_url" => resume.avatar_url)
   end
 end

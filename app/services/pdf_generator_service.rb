@@ -10,7 +10,7 @@ class PdfGeneratorService
     controller = ActionController::Base.new
     html = controller.render_to_string(
       template: @template,
-      layout: 'pdf',
+      layout: "pdf",
       locals: @locals
     )
     Grover.new(html).to_pdf

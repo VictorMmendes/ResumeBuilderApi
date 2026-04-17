@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{RESUME_TITLE}}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+
+        :root {
+            --primary-color: #333;
+            --secondary-color: #666;
+            --border-color: #eee;
+            --bg-color: #fff;
+            --header-bg: #f9f9f9;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--primary-color);
+            line-height: 1.6;
+            background-color: #f0f0f0;
+            padding: 40px 0;
+        }
+
+        .resume-page {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            background-color: var(--bg-color);
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 顶部通栏 */
+        .header {
+            background-color: var(--header-bg);
+            padding: 40px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-info h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-info .title {
+            font-size: 20px;
+            color: var(--secondary-color);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 8px 20px;
+            font-size: 13px;
+            color: var(--secondary-color);
+            margin-top: 15px;
+            width: fit-content;
+        }
+
+        .contact-item { display: flex; align-items: center; }
+
+        .contact-label {
+            width: 75px;
+            color: #aaa;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+
+        .contact-value { color: var(--primary-color); font-weight: 400; }
+
+        .profile-photo {
+            width: 160px;
+            height: 210px;
+            background-color: #eee;
+            overflow: hidden;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .profile-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* 内容区域 */
+        .content { padding: 20px 60px 40px; }
+
+        section { margin-bottom: 30px; }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            border-bottom: 2px solid #333;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+
+        /* 教育背景 */
+        .edu-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .edu-date { width: 150px; color: #666; }
+        .edu-school { flex: 2; font-weight: 500; }
+        .edu-degree { flex: 1; text-align: center; }
+        .edu-major { flex: 1; text-align: right; }
+
+        /* 工作经历 */
+        .job-item { margin-bottom: 20px; }
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        .job-company { display: flex; align-items: center; }
+        .job-content { font-size: 13px; color: #666; padding-left: 0; }
+        .job-point { margin-bottom: 8px; }
+        .job-point-title { font-weight: 700; display: inline; }
+
+        /* 技能/荣誉 */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            font-size: 13px;
+        }
+        .skill-item { display: flex; align-items: flex-start; }
+        .skill-cat { font-weight: 700; width: 100px; flex-shrink: 0; }
+        .skill-list { color: #555; }
+
+        /* 打印适配 */
+        @media print {
+            body { background-color: white; padding: 0; }
+            .resume-page { box-shadow: none; margin: 0; width: 100%; height: 100%; }
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-page" id="resume">
+        <header class="header">
+            <div class="header-info">
+                <h1>{{NAME_ZH}} <span style="font-size: 32px; font-weight: 400; margin-left:10px;">{{NAME_EN}}</span></h1>
+                <div class="title">{{ROLE_TITLE}}</div>
+                
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <span class="contact-label">年龄：</span>
+                        <span class="contact-value">{{AGE}}</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">工作年限：</span>
+                        <span class="contact-value">{{EXP_YEARS}}</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">电话：</span>
+                        <span class="contact-value">{{PHONE}}</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">邮箱：</span>
+                        <span class="contact-value">{{EMAIL}}</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">GitHub：</span>
+                        <span class="contact-value">{{GITHUB_URL}}</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">{{EXTRA_CONTACT_LABEL}}：</span>
+                        <span class="contact-value">{{EXTRA_CONTACT_VALUE}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-photo">
+                <img src="{{PHOTO_PATH}}" alt="Profile Photo">
+            </div>
+        </header>
+
+        <div class="content">
+            <section>
+                <h2 class="section-title">核心技能</h2>
+                <div class="skills-grid">
+                    <!-- Example Skill Item -->
+                    <!-- <div class="skill-item">
+                        <span class="skill-cat">{{SKILL_CATEGORY}}</span>
+                        <span class="skill-list">{{SKILL_DETAILS}}</span>
+                    </div> -->
+                    {{CORE_SKILLS_CONTENT}}
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">教育背景</h2>
+                <!-- Example Edu Item -->
+                <!-- <div class="edu-item">
+                    <span class="edu-date">{{EDU_DATE}}</span>
+                    <span class="edu-school">{{EDU_SCHOOL}}</span>
+                    <span class="edu-degree">{{EDU_DEGREE}}</span>
+                    <span class="edu-major">{{EDU_MAJOR}}</span>
+                </div> -->
+                {{EDUCATION_CONTENT}}
+            </section>
+
+            <section>
+                <h2 class="section-title">工作经历</h2>
+                <!-- Example Job Item -->
+                <!-- <div class="job-item">
+                    <div class="job-header">
+                        <div class="job-company" style="font-size: 15px;">{{COMPANY}} <span style="margin:0 10px; font-weight:400; color:#ccc;">|</span> {{ROLE}}</div>
+                        <div class="job-date">{{DATE_RANGE}}</div>
+                    </div>
+                    <div class="job-content">
+                        <div class="job-point">
+                            <span class="job-point-title">{{POINT_TITLE}}：</span>
+                            {{POINT_DESC}}
+                        </div>
+                    </div>
+                </div> -->
+                {{JOBS_CONTENT}}
+            </section>
+
+            <section>
+                <h2 class="section-title">荣誉奖励 & 行业分享</h2>
+                <div class="job-content">
+                    <!-- Example Honor Item -->
+                    <!-- <div class="job-point">
+                        <strong>{{HONOR_TITLE}}：</strong> {{HONOR_DESC}}
+                    </div> -->
+                    {{HONORS_CONTENT}}
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

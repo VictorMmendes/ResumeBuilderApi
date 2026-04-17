@@ -1,12 +1,16 @@
 Rails.application.routes.draw do
-  resources :languages
-  resources :softwares
-  resources :skills
-  resources :educations
-  resources :experiences
   resources :resumes do
     get :export, on: :member
     post :avatar, on: :member
+
+    resources :educations, shallow: true
+    resources :top_skills, shallow: true
+    resources :certifications, shallow: true
+    resources :experience_groups, shallow: true do
+      resources :experience_positions, shallow: true do
+        resources :experience_position_bullets, shallow: true
+      end
+    end
   end
   resources :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
