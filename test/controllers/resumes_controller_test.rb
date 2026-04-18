@@ -131,18 +131,18 @@ class ResumesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "%PDF-1.4 fake", response.body
     assert_includes captured_html, "Empty Resume"
     assert_includes captured_html, "@font-face"
-    assert_includes captured_html, 'font-family: "Fredoka"'
+    assert_includes captured_html, 'font-family: "Inter"'
     assert_includes captured_html, "data:font/woff2;base64,"
     refute_includes captured_html, "fonts.googleapis.com"
     refute_includes captured_html, "&quot;Fredoka&quot;"
+    refute_includes captured_html, 'font-family: "Fredoka"'
     refute_includes captured_html, '"Segoe UI"'
     refute_includes captured_html, "sans-serif"
     assert_includes captured_html, "No experience entries yet."
     assert_includes captured_html, "No top skills added."
     refute_includes captured_html, 'style="margin-bottom: 10px;"'
-    assert_includes captured_html, ".education-item:last-child"
-    assert_includes captured_html, "margin-block-end: 10px;"
-    refute_includes captured_html, ".education-list > *"
+    refute_includes captured_html, "margin-block-end: 10px;"
+    assert_includes captured_html, ".main-column > * + *"
 
     main_column_html = captured_html[/<main class="main-column">(.*?)<\/main>/m, 1]
     sidebar_html = captured_html[/<aside class="sidebar-column">(.*?)<\/aside>/m, 1]

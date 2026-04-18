@@ -1,7 +1,7 @@
 html,
 body,
 body * {
-  font-family: "Fredoka" !important;
+  font-family: "Inter" !important;
 }
 
 @page {
@@ -56,20 +56,25 @@ body * {
     color-scheme: light;
     --page-width: 210mm;
     --page-height: 297mm;
-    --page-padding-block: 14mm;
-    --page-padding-inline: 15mm;
+    --page-padding-block: 13.5mm;
+    --page-padding-inline: 15.5mm;
     --sidebar-width: 58mm;
-    --gutter: 8mm;
-    --ink: #162033;
-    --ink-muted: #42516a;
-    --ink-soft: #70809b;
-    --accent: #254c83;
-    --line: #d9e0ea;
-    --line-strong: #9aa9c1;
-    --panel: #f4f7fb;
-    --panel-strong: #eaf0f8;
-    --canvas: #d7dee8;
-    --shadow: 0 10px 28px rgb(15 23 42 / 12%);
+    --gutter: 8.5mm;
+    --section-space: 8.6mm;
+    --panel-space: 4.8mm;
+    --card-space: 4.6mm;
+    --role-space: 4mm;
+    --list-space: 2.4mm;
+    --ink: #0f172a;
+    --ink-muted: #334155;
+    --ink-soft: #64748b;
+    --accent: #224b7a;
+    --line: #d7dfe8;
+    --line-strong: #97a6bb;
+    --panel: #f5f8fb;
+    --panel-strong: #edf2f8;
+    --canvas: #e8eef4;
+    --shadow: 0 18px 40px rgb(15 23 42 / 10%);
   }
 
   html,
@@ -84,8 +89,9 @@ body * {
   body {
     background: var(--canvas);
     color: var(--ink);
-    font-size: 9.6pt;
-    line-height: 1.42;
+    font-size: 9.15pt;
+    line-height: 1.5;
+    font-optical-sizing: auto;
     font-synthesis: none;
     font-variant-numeric: lining-nums tabular-nums;
     text-rendering: optimizeLegibility;
@@ -109,11 +115,11 @@ body * {
   .resume-page {
     position: relative;
     inline-size: var(--page-width);
-    min-block-size: var(--page-height);
+    min-block-size: calc(var(--page-height) - 0.6mm);
     margin-inline: auto;
     background:
-      radial-gradient(circle at top right, rgb(224 235 248 / 95%), transparent 34%),
-      linear-gradient(180deg, #fff 0%, #fbfcfe 100%);
+      radial-gradient(circle at top right, rgb(220 230 242 / 82%), transparent 33%),
+      linear-gradient(180deg, #fff 0%, #fcfdff 100%);
     padding-block: var(--page-padding-block);
     padding-inline: var(--page-padding-inline);
   }
@@ -122,15 +128,15 @@ body * {
     content: "";
     position: absolute;
     inset: 0 0 auto;
-    block-size: 5.5mm;
-    background: linear-gradient(90deg, var(--accent) 0%, #6f87b0 52%, #dbe6f5 100%);
+    block-size: 4.4mm;
+    background: linear-gradient(90deg, var(--accent) 0%, #6b86ad 52%, #dfe7f3 100%);
   }
 }
 
 @layer components {
   .resume-hero {
     border-block-end: 0.75pt solid var(--line);
-    padding-block-end: 8mm;
+    padding-block-end: 8.2mm;
   }
 
   .eyebrow,
@@ -138,47 +144,49 @@ body * {
   .contact-label,
   .fact-label {
     color: var(--ink-soft);
-    font-size: 7.6pt;
-    font-weight: 700;
-    letter-spacing: 0.16em;
+    font-size: 7.05pt;
+    font-weight: 600;
+    letter-spacing: 0.09em;
     text-transform: uppercase;
   }
 
   .identity-block {
-    padding-block-start: 3mm;
-    padding-inline-end: 0;
+    padding-block-start: 3.8mm;
   }
 
   .resume-name {
-    font-size: 24pt;
+    font-size: 25.5pt;
     font-weight: 700;
-    letter-spacing: -0.05em;
-    margin-block: 1.3mm 2.2mm;
+    letter-spacing: -0.065em;
+    line-height: 0.98;
+    margin-block: 1.7mm 2.4mm;
   }
 
   .resume-headline {
     color: var(--ink-muted);
-    font-size: 11pt;
-    line-height: 1.32;
+    font-size: 10.8pt;
+    font-weight: 500;
+    line-height: 1.38;
     max-inline-size: 112mm;
   }
 
   .meta-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 2.2mm;
+    gap: 2mm;
     list-style: none;
-    margin-block-start: 4.6mm;
+    margin-block-start: 4.8mm;
   }
 
   .meta-chip {
     border: 0.75pt solid var(--line);
-    border-radius: 999px;
+    border-radius: 3.4mm;
     background: rgb(255 255 255 / 92%);
     color: var(--ink-muted);
+    font-size: 8.45pt;
     line-height: 1.2;
-    padding-block: 1.4mm;
-    padding-inline: 2.5mm;
+    padding-block: 1.45mm;
+    padding-inline: 2.75mm;
   }
 
   .profile-frame {
@@ -187,7 +195,7 @@ body * {
     place-items: center;
     overflow: hidden;
     border: 0.75pt solid var(--line);
-    border-radius: 18.5px;
+    border-radius: 12px;
     background: linear-gradient(180deg, var(--panel-strong) 0%, #fff 100%);
   }
 
@@ -199,49 +207,94 @@ body * {
 
   .profile-placeholder {
     color: var(--ink-soft);
-    font-size: 18pt;
+    font-size: 16.8pt;
     font-weight: 700;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.12em;
   }
 
   .facts-list {
     display: grid;
     gap: 2mm;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    margin-block-start: 4.8mm;
-    max-inline-size: 92mm;
+    margin-block-start: 5mm;
+    max-inline-size: 93mm;
   }
 
   .fact-item {
     display: grid;
-    gap: 0.6mm;
+    gap: 0.8mm;
     align-items: start;
     border: 0.75pt solid var(--line);
-    border-radius: 3.5mm;
-    background: var(--panel);
+    border-radius: 2.9mm;
+    background: linear-gradient(180deg, var(--panel) 0%, #fff 100%);
     margin: 0;
-    padding-block: 2.3mm;
-    padding-inline: 2.8mm;
+    padding-block: 2.4mm;
+    padding-inline: 3mm;
   }
 
   .fact-value {
     color: var(--accent);
-    font-size: 12.8pt;
+    font-size: 12.1pt;
     font-weight: 700;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.03em;
   }
 
   .fact-label {
-    letter-spacing: 0.12em;
+    font-size: 6.8pt;
+    letter-spacing: 0.08em;
     margin: 0;
   }
 
-  .section {
-    break-inside: avoid;
+  .resume-body {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--gutter);
+    padding-block-start: 8.4mm;
   }
 
-  .summary-section {
-    padding-block-start: 1mm;
+  .main-column {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+  }
+
+  .sidebar-column {
+    flex: 0 0 var(--sidebar-width);
+    inline-size: var(--sidebar-width);
+  }
+
+  .main-column > * + * {
+    margin-block-start: var(--section-space);
+  }
+
+  .sidebar-column > * + * {
+    margin-block-start: var(--panel-space);
+  }
+
+  .company-list > * + *,
+  .education-list > * + * {
+    margin-block-start: var(--card-space);
+  }
+
+  .role-list > * + * {
+    margin-block-start: var(--role-space);
+  }
+
+  .contact-list > * + * {
+    margin-block-start: 3.4mm;
+  }
+
+  .skill-list > * + *,
+  .certification-list > * + * {
+    margin-block-start: var(--list-space);
+  }
+
+  .section,
+  .company-block,
+  .education-item,
+  .sidebar-panel,
+  .summary-text {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 
   .section-heading {
@@ -249,150 +302,123 @@ body * {
     align-items: end;
     justify-content: space-between;
     gap: 4mm;
-    margin-block-end: 4.8mm;
+    margin-block-end: 4.3mm;
   }
 
   .section-heading > div {
     display: grid;
-    gap: 1.5mm;
+    gap: 1.4mm;
   }
 
   .section-title {
-    font-size: 13.5pt;
-    font-weight: 700;
+    font-size: 12.85pt;
+    font-weight: 650;
+    letter-spacing: -0.02em;
   }
 
   .summary-text {
     border: 0.75pt solid var(--line);
-    border-radius: 4.2mm;
-    background: linear-gradient(135deg, var(--panel) 0%, rgb(255 255 255 / 90%) 100%);
+    border-radius: 3.8mm;
+    background: linear-gradient(135deg, var(--panel) 0%, rgb(255 255 255 / 94%) 100%);
     color: var(--ink-muted);
-    line-height: 1.5;
-    padding-block: 5.2mm;
+    font-size: 8.95pt;
+    line-height: 1.62;
+    padding-block: 4.9mm;
     padding-inline: 4.8mm;
-  }
-
-  .resume-body {
-    display: flex;
-    align-items: flex-start;
-    gap: 9mm;
-    padding-block-start: 8mm;
-  }
-
-  .main-column {
-    flex: 1 1 auto;
-    min-inline-size: 0;
-    display: grid;
-    gap: 0;
-    align-content: start;
-  }
-
-  .sidebar-column {
-    flex: 0 0 var(--sidebar-width);
-    inline-size: var(--sidebar-width);
-    display: grid;
-    gap: 0;
-    align-content: start;
-  }
-
-  .company-list,
-  .role-list,
-  .certification-list {
-    display: grid;
-    gap: 0;
-  }
-
-  .company-block,
-  .education-item,
-  .sidebar-panel,
-  .summary-text {
-    break-inside: avoid;
   }
 
   .company-block {
     position: relative;
     border: 0.75pt solid var(--line);
-    border-radius: 5mm;
+    border-radius: 3.9mm;
     background: #fff;
-    padding-block: 5mm;
-    padding-inline: 4.4mm;
-    margin-block-end: 10px;
+    padding-block: 4.9mm;
+    padding-inline: 4.6mm;
   }
 
   .company-block::before {
     content: "";
     position: absolute;
-    inset-block: 4.2mm;
+    inset-block: 4.4mm;
     inset-inline-start: 0;
-    inline-size: 1.4mm;
+    inline-size: 1.05mm;
     border-radius: 999px;
-    background: linear-gradient(180deg, var(--accent) 0%, rgb(37 76 131 / 12%) 100%);
+    background: linear-gradient(180deg, var(--accent) 0%, rgb(34 75 122 / 14%) 100%);
   }
 
   .company-header {
     border-block-end: 0.75pt solid var(--line);
-    margin-block-end: 4.4mm;
-    padding-block-end: 3.4mm;
-    padding-inline-start: 3mm;
+    margin-block-end: 4.2mm;
+    padding-block-end: 3.1mm;
+    padding-inline-start: 2.6mm;
   }
 
   .company-name {
-    font-size: 11.1pt;
-    font-weight: 700;
+    font-size: 10.65pt;
+    font-weight: 650;
+    letter-spacing: -0.015em;
   }
 
   .company-location,
   .role-summary,
   .education-degree {
     color: var(--ink-muted);
-    line-height: 1.45;
+    line-height: 1.46;
   }
 
   .company-location {
-    font-size: 8.5pt;
-    margin-block-start: 1mm;
+    font-size: 8.35pt;
+    margin-block-start: 0.9mm;
   }
 
   .role-block {
-    padding-inline-start: 3mm;
-      margin-block-end: 10px;
+    padding-inline-start: 2.6mm;
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 
-  .role-header {
+  .role-header,
+  .education-item {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    gap: 3mm;
+    gap: 3.2mm 4.2mm;
     align-items: start;
   }
 
   .role-title,
   .education-school {
-    font-size: 9.9pt;
-    font-weight: 700;
+    font-size: 9.55pt;
+    font-weight: 650;
+    line-height: 1.28;
   }
 
   .date-range {
     color: var(--ink-soft);
-    font-size: 8.2pt;
+    font-size: 8.05pt;
+    font-weight: 500;
     line-height: 1.3;
     text-align: end;
     white-space: nowrap;
   }
 
   .role-summary {
-    font-size: 8.75pt;
-    margin-block-start: 1.9mm;
+    font-size: 8.55pt;
+    margin-block-start: 1.6mm;
   }
 
   .achievement-list {
-    display: grid;
-    gap: 2.1mm;
-    margin-block-start: 3.2mm;
-    padding-inline-start: 4.2mm;
+    margin-block-start: 2.8mm;
+    padding-inline-start: 3.8mm;
+  }
+
+  .achievement-list li + li {
+    margin-block-start: 1.8mm;
   }
 
   .achievement-list li {
     color: var(--ink-muted);
+    font-size: 8.8pt;
+    line-height: 1.5;
   }
 
   .achievement-list li::marker {
@@ -400,56 +426,42 @@ body * {
   }
 
   .education-item {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 3.2mm 4.4mm;
-    align-items: start;
     border: 0.75pt solid var(--line);
-    border-radius: 4mm;
-    background: linear-gradient(180deg, #fff 0%, #fbfcfe 100%);
-    padding-block: 4.8mm;
-    padding-inline: 4.3mm;
-    margin-block-end: 10px;
-  }
-
-  .education-item:last-child {
-    margin-block-end: 0;
+    border-radius: 3.4mm;
+    background: linear-gradient(180deg, #fff 0%, #fcfdff 100%);
+    padding-block: 4.5mm;
+    padding-inline: 4.2mm;
   }
 
   .education-degree {
-    font-size: 8.75pt;
-    margin-block-start: 1.8mm;
+    font-size: 8.55pt;
+    margin-block-start: 1.55mm;
   }
 
   .sidebar-panel {
     border: 0.75pt solid var(--line);
-    border-radius: 5mm;
+    border-radius: 3.8mm;
     background: linear-gradient(180deg, var(--panel) 0%, #fff 100%);
-    padding-block: 5.4mm;
-    padding-inline: 4.3mm;
-      margin-block-end: 10px;
+    padding-block: 5mm;
+    padding-inline: 4.1mm;
   }
 
   .profile-panel {
+    border: 0;
     background: transparent;
     padding: 0;
   }
 
   .sidebar-heading {
-    margin-block-end: 5.2mm;
-  }
-
-  .contact-list {
-    display: grid;
-    gap: 3.8mm;
+    margin-block-end: 4.8mm;
   }
 
   .contact-row {
     display: grid;
-    gap: 1.5mm;
-    border-block-end: 0.75pt solid rgb(154 169 193 / 28%);
+    gap: 1.3mm;
+    border-block-end: 0.75pt solid rgb(151 166 187 / 30%);
     margin: 0;
-    padding-block-end: 3.4mm;
+    padding-block-end: 3mm;
   }
 
   .contact-row:last-child {
@@ -463,14 +475,16 @@ body * {
 
   .contact-value {
     color: var(--ink);
+    font-size: 8.75pt;
+    line-height: 1.48;
     overflow-wrap: anywhere;
   }
 
   .resource-link {
     text-decoration: underline;
-    text-decoration-color: rgb(37 76 131 / 32%);
-    text-decoration-thickness: 0.08em;
-    text-underline-offset: 0.14em;
+    text-decoration-color: rgb(34 75 122 / 32%);
+    text-decoration-thickness: 0.06em;
+    text-underline-offset: 0.15em;
   }
 
   .skill-list,
@@ -478,58 +492,36 @@ body * {
     list-style: none;
   }
 
-  .skill-list {
-    display: grid;
-    gap: 0;
-  }
-
-  .main-column > *,
-  .sidebar-column > *,
-  .company-list > *,
-  .role-list > *,
-  .skill-list > *,
-  .certification-list > *,
-  .contact-list > * {
-    margin-bottom: 10px;
-  }
-
-  .main-column > *:last-child,
-  .sidebar-column > *:last-child,
-  .company-list > *:last-child,
-  .role-list > *:last-child,
-  .skill-list > *:last-child,
-  .certification-list > *:last-child,
-  .contact-list > *:last-child {
-    margin-bottom: 0;
-  }
-
   .skill-pill,
   .certification-item {
     border: 0.75pt solid var(--line);
+    border-radius: 3mm;
     background: #fff;
-      margin-block-end: 10px;
   }
 
   .skill-pill {
-    border-radius: 3.4mm;
-    font-size: 8.15pt;
-    line-height: 1.25;
-    padding-block: 2.5mm;
-    padding-inline: 2.8mm;
+    color: var(--ink);
+    font-size: 8.3pt;
+    line-height: 1.34;
+    padding-block: 2.6mm;
+    padding-inline: 2.9mm;
   }
 
   .certification-item {
-    border-radius: 3.4mm;
-    padding-block: 3.1mm;
-    padding-inline: 3mm;
     color: var(--ink-muted);
+    font-size: 8.3pt;
+    line-height: 1.42;
+    padding-block: 2.9mm;
+    padding-inline: 3mm;
   }
 
   .empty-state {
     border: 0.75pt dashed var(--line-strong);
-    border-radius: 4mm;
+    border-radius: 3.2mm;
     background: #fff;
     color: var(--ink-soft);
+    font-size: 8.55pt;
+    line-height: 1.45;
     padding-block: 4mm;
     padding-inline: 4mm;
   }
@@ -563,44 +555,20 @@ body * {
     }
 
     .resume-page {
+      min-block-size: auto;
       box-shadow: none;
-    }
-
-    .resume-body {
-      display: flex;
-      align-items: flex-start;
-      gap: 9mm;
-    }
-
-    .sidebar-column {
-      inline-size: var(--sidebar-width);
-      flex: 0 0 var(--sidebar-width);
-      display: block;
-    }
-
-    .main-column {
-      flex: 1 1 auto;
-      min-inline-size: 0;
-      display: block;
     }
 
     .section {
       break-inside: auto;
       page-break-inside: auto;
-        margin-block-end: 20px;
     }
 
-    .section-heading {
+    .section-heading,
+    .company-header,
+    .role-header {
       break-after: avoid;
       page-break-after: avoid;
-    }
-
-    .company-list,
-    .role-list,
-    .skill-list,
-    .contact-list,
-    .certification-list {
-      display: block;
     }
 
     .company-block,
@@ -609,7 +577,9 @@ body * {
     .summary-text,
     .role-block,
     .contact-row,
-    .certification-item {
+    .skill-pill,
+    .certification-item,
+    .facts-list {
       break-inside: avoid;
       page-break-inside: avoid;
     }
