@@ -34,6 +34,29 @@
     [ payload[:top_skills].size, "Skills" ],
     [ payload[:certifications].size, "Certs" ]
   ]
+  summary_compact = payload[:summary].to_s.length <= 420
+  compact_role = lambda do |position|
+    bullet_characters = position[:bullets].sum { |bullet| bullet[:content].to_s.length }
+
+    position[:summary].to_s.length <= 170 &&
+      position[:bullets].size <= 3 &&
+      bullet_characters <= 360
+  end
+  compact_company = lambda do |group|
+    group[:positions].size == 1 && compact_role.call(group[:positions].first)
+  end
+  compact_education = lambda do |education|
+    entry_length = [
+      education[:institution],
+      education[:degree_name],
+      education[:field_of_study]
+    ].sum { |value| value.to_s.length }
+
+    entry_length <= 150
+  end
+  compact_certifications_panel = payload[:certifications].size.positive? &&
+    payload[:certifications].size <= 4 &&
+    payload[:certifications].sum { |certification| certification[:name].to_s.length } <= 180
 %>
 
 <article class="resume-page">
@@ -79,7 +102,7 @@
               <h2 class="section-title">Professional summary</h2>
             </div>
           </div>
-          <p class="summary-text"><%= payload[:summary] %></p>
+          <p class="summary-text <%= "compact-block" if summary_compact %>"><%= payload[:summary] %></p>
         </section>
       <% end %>
 
@@ -94,7 +117,7 @@
         <% if payload[:experience_groups].any? %>
           <div class="company-list">
             <% payload[:experience_groups].each do |group| %>
-              <article class="company-block">
+              <article class="company-block <%= "compact-block" if compact_company.call(group) %>">
                 <header class="company-header">
                   <div>
                     <h3 class="company-name"><%= group[:company_name] %></h3>
@@ -106,7 +129,7 @@
 
                 <div class="role-list">
                   <% group[:positions].each do |position| %>
-                    <section class="role-block">
+                    <section class="role-block <%= "compact-block" if compact_role.call(position) %>">
                       <div class="role-header">
                         <div>
                           <h4 class="role-title"><%= position[:title] %></h4>
@@ -146,7 +169,7 @@
         <% if payload[:educations].any? %>
           <div class="education-list">
             <% payload[:educations].each do |education| %>
-              <article class="education-item">
+              <article class="education-item <%= "compact-block" if compact_education.call(education) %>">
                 <div>
                   <h3 class="education-school"><%= education[:institution] %></h3>
                   <% if education[:degree_name].present? || education[:field_of_study].present? %>
@@ -180,7 +203,7 @@
         </div>
       </section>
 
-      <section class="sidebar-panel contact-panel">
+      <section class="sidebar-panel contact-panel compact-panel">
         <div class="section-heading sidebar-heading">
           <div>
             <p class="section-kicker">Contact</p>
@@ -223,7 +246,7 @@
         <% end %>
       </section>
 
-      <section class="sidebar-panel">
+      <section class="sidebar-panel <%= "compact-panel" if compact_certifications_panel %>">
         <div class="section-heading sidebar-heading">
           <div>
             <p class="section-kicker">Credentials</p>

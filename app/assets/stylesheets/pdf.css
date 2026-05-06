@@ -60,11 +60,14 @@ body * {
     --page-padding-inline: 15.5mm;
     --sidebar-width: 58mm;
     --gutter: 8.5mm;
-    --section-space: 8.6mm;
-    --panel-space: 4.8mm;
-    --card-space: 4.6mm;
-    --role-space: 4mm;
-    --list-space: 2.4mm;
+    --section-space: 9.4mm;
+    --panel-space: 5.4mm;
+    --card-space: 5.2mm;
+    --role-space: 4.8mm;
+    --list-space: 2.8mm;
+    --heading-space: 4.9mm;
+    --subheading-space: 1.6mm;
+    --row-space: 2.4mm;
     --ink: #0f172a;
     --ink-muted: #334155;
     --ink-soft: #64748b;
@@ -136,7 +139,7 @@ body * {
 @layer components {
   .resume-hero {
     border-block-end: 0.75pt solid var(--line);
-    padding-block-end: 8.2mm;
+    padding-block-end: 8.8mm;
   }
 
   .eyebrow,
@@ -151,7 +154,7 @@ body * {
   }
 
   .identity-block {
-    padding-block-start: 3.8mm;
+    padding-block-start: 4.1mm;
   }
 
   .resume-name {
@@ -159,7 +162,7 @@ body * {
     font-weight: 700;
     letter-spacing: -0.065em;
     line-height: 0.98;
-    margin-block: 1.7mm 2.4mm;
+    margin-block: 1.9mm 2.7mm;
   }
 
   .resume-headline {
@@ -175,7 +178,7 @@ body * {
     flex-wrap: wrap;
     gap: 2mm;
     list-style: none;
-    margin-block-start: 4.8mm;
+    margin-block-start: 5.2mm;
   }
 
   .meta-chip {
@@ -216,7 +219,7 @@ body * {
     display: grid;
     gap: 2mm;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    margin-block-start: 5mm;
+    margin-block-start: 5.5mm;
     max-inline-size: 93mm;
   }
 
@@ -293,6 +296,16 @@ body * {
   .education-item,
   .sidebar-panel,
   .summary-text {
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  .compact-block,
+  .compact-panel,
+  .contact-row,
+  .skill-pill,
+  .certification-item,
+  .facts-list {
     break-inside: avoid;
     page-break-inside: avoid;
   }
@@ -302,12 +315,12 @@ body * {
     align-items: end;
     justify-content: space-between;
     gap: 4mm;
-    margin-block-end: 4.3mm;
+    margin-block-end: var(--heading-space);
   }
 
   .section-heading > div {
     display: grid;
-    gap: 1.4mm;
+    gap: var(--subheading-space);
   }
 
   .section-title {
@@ -323,8 +336,8 @@ body * {
     color: var(--ink-muted);
     font-size: 8.95pt;
     line-height: 1.62;
-    padding-block: 4.9mm;
-    padding-inline: 4.8mm;
+    padding-block: 5.3mm;
+    padding-inline: 5mm;
   }
 
   .company-block {
@@ -332,8 +345,8 @@ body * {
     border: 0.75pt solid var(--line);
     border-radius: 3.9mm;
     background: #fff;
-    padding-block: 4.9mm;
-    padding-inline: 4.6mm;
+    padding-block: 5.2mm;
+    padding-inline: 4.8mm;
   }
 
   .company-block::before {
@@ -348,8 +361,8 @@ body * {
 
   .company-header {
     border-block-end: 0.75pt solid var(--line);
-    margin-block-end: 4.2mm;
-    padding-block-end: 3.1mm;
+    margin-block-end: 4.7mm;
+    padding-block-end: 3.4mm;
     padding-inline-start: 2.6mm;
   }
 
@@ -368,13 +381,13 @@ body * {
 
   .company-location {
     font-size: 8.35pt;
-    margin-block-start: 0.9mm;
+    margin-block-start: 1.2mm;
   }
 
   .role-block {
     padding-inline-start: 2.6mm;
-    break-inside: avoid;
-    page-break-inside: avoid;
+    break-inside: auto;
+    page-break-inside: auto;
   }
 
   .role-header,
@@ -403,16 +416,16 @@ body * {
 
   .role-summary {
     font-size: 8.55pt;
-    margin-block-start: 1.6mm;
+    margin-block-start: 1.9mm;
   }
 
   .achievement-list {
-    margin-block-start: 2.8mm;
+    margin-block-start: 3.3mm;
     padding-inline-start: 3.8mm;
   }
 
   .achievement-list li + li {
-    margin-block-start: 1.8mm;
+    margin-block-start: 2.1mm;
   }
 
   .achievement-list li {
@@ -429,21 +442,21 @@ body * {
     border: 0.75pt solid var(--line);
     border-radius: 3.4mm;
     background: linear-gradient(180deg, #fff 0%, #fcfdff 100%);
-    padding-block: 4.5mm;
-    padding-inline: 4.2mm;
+    padding-block: 4.8mm;
+    padding-inline: 4.4mm;
   }
 
   .education-degree {
     font-size: 8.55pt;
-    margin-block-start: 1.55mm;
+    margin-block-start: 1.8mm;
   }
 
   .sidebar-panel {
     border: 0.75pt solid var(--line);
     border-radius: 3.8mm;
     background: linear-gradient(180deg, var(--panel) 0%, #fff 100%);
-    padding-block: 5mm;
-    padding-inline: 4.1mm;
+    padding-block: 5.3mm;
+    padding-inline: 4.3mm;
   }
 
   .profile-panel {
@@ -453,15 +466,19 @@ body * {
   }
 
   .sidebar-heading {
-    margin-block-end: 4.8mm;
+    margin-block-end: 5.2mm;
   }
 
   .contact-row {
     display: grid;
-    gap: 1.3mm;
+    gap: 1.6mm;
     border-block-end: 0.75pt solid rgb(151 166 187 / 30%);
     margin: 0;
-    padding-block-end: 3mm;
+    padding-block-end: 3.2mm;
+  }
+
+  .contact-row + .contact-row {
+    padding-block-start: var(--row-space);
   }
 
   .contact-row:last-child {
@@ -503,16 +520,16 @@ body * {
     color: var(--ink);
     font-size: 8.3pt;
     line-height: 1.34;
-    padding-block: 2.6mm;
-    padding-inline: 2.9mm;
+    padding-block: 2.8mm;
+    padding-inline: 3.1mm;
   }
 
   .certification-item {
     color: var(--ink-muted);
     font-size: 8.3pt;
     line-height: 1.42;
-    padding-block: 2.9mm;
-    padding-inline: 3mm;
+    padding-block: 3.1mm;
+    padding-inline: 3.2mm;
   }
 
   .empty-state {
@@ -564,18 +581,31 @@ body * {
       page-break-inside: auto;
     }
 
+    .resume-body,
+    .main-column,
+    .sidebar-column,
+    .company-list,
+    .company-block,
+    .role-list,
+    .role-block,
+    .education-list,
+    .education-item,
+    .sidebar-panel,
+    .summary-text {
+      break-inside: auto;
+      page-break-inside: auto;
+    }
+
     .section-heading,
     .company-header,
-    .role-header {
+    .role-header,
+    .sidebar-heading {
       break-after: avoid;
       page-break-after: avoid;
     }
 
-    .company-block,
-    .education-item,
-    .sidebar-panel,
-    .summary-text,
-    .role-block,
+    .compact-block,
+    .compact-panel,
     .contact-row,
     .skill-pill,
     .certification-item,
